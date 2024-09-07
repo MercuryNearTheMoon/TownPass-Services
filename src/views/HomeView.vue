@@ -1,13 +1,15 @@
 <template>
   <main>
-    <MilestoneComponent />
+    <!-- <MilestoneComponent /> -->
     <div class="py-4 bg-primary-50 min-h-screen">
       <div class="w-full h-40 bg-white">image</div>
       <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
         <!-- Content inside the container -->
         <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">健康數據</p>
+          <RouterLink to="health-stats">
+            <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
+            <p class="text-sm font-bold mt-1">健康數據</p>
+          </RouterLink>
         </div>
         <div class="w-full h-auto flex-1 text-center m-0">
           <RouterLink to="/qna">
@@ -20,8 +22,10 @@
           </RouterLink>
         </div>
         <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">里程碑</p>
+          <RouterLink to="/milestone">
+            <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
+            <p class="text-sm font-bold mt-1">里程碑</p>
+          </RouterLink>
         </div>
       </div>
       <BaseCard>
