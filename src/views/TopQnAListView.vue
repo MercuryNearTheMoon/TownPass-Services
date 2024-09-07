@@ -30,7 +30,7 @@ const openSheet = (newsItem: {
 
 <template>
   <v-app>
-    <div class="px-2 bg-primary-50">
+    <div class="px-2 bg-primary-50 mb-0">
       <h5 class="text-black mb-6 ml-4 mt-4 text-[24px] font-bold">孕期建議</h5>
       <div class="w-full flex flex-col">
         <BaseCard
@@ -80,4 +80,8 @@ const openSheet = (newsItem: {
   color: #333;
   margin-bottom: 24px;
 }
+.v-application__wrap {
+  margin: 0 !important;
+}
+
 </style>

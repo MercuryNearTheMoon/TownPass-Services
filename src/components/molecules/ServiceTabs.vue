@@ -26,7 +26,7 @@ const activeTab = defineModel({ default: 0 });
 
 <template>
   <section
-    class="tabs"
+    class="tabs mb-0"
     :class="{ '!grid-cols-3': tabList.length % 4 === 0, 'tabs__content-type': props.contentType }"
   >
     <button

@@ -1,7 +1,7 @@
 <template>
-  <v-app>
-  <main>
-    <div class="py-4 bg-primary-50 min-h-screen flex flex-col">
+  <v-app class="h-full bg-primary-50 mb-0">
+  <main class="h-full mb-0">
+    <div class="pt-4 bg-primary-50 h-full flex flex-col">
       <div class="bg-white rounded-xl shadow-lg mx-4 ">
         <div class="flex items-center justify-end px-4 pt-2 m-0">
           <span class="flex w-3 h-3 bg-primary-400 rounded-full"></span>
@@ -258,4 +258,9 @@ html {
 .base-select-wrapper {
   @apply mb-0;
 }
+
+.v-application__wrap {
+  @apply m-0;
+}
+
 </style>
