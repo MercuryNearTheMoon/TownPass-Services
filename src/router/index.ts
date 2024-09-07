@@ -10,6 +10,7 @@ import HotSpotView from '../views/HotSpotView.vue';
 import TicketDetail from '../views/TicketDetail.vue';
 import CouponDetail from '../views/CouponDetail.vue';
 import ChartTest from '../views/ChartTest.vue'
+import PregnancyForm from '../views/PregnancyForm.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +72,11 @@ const router = createRouter({
           path: 'coupon-detail/:id',
           name: 'coupon-detail',
           component: CouponDetail
+        },
+        {
+          path: '/pregnancy-form',
+          name: 'pregnancy-form',
+          component: PregnancyForm
         }
       ]
     }

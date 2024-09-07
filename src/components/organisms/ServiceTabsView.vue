@@ -22,7 +22,7 @@ const activeTab = defineModel({ default: 0 });
 <template>
   <ServiceTabs v-model="activeTab" :tab-list="props.tabList" :contentType="props.contentType" />
   <section class="tab-view-container">
-    <div v-for="(item, index) in props.tabList" :key="item.id" class="tab-view h-full"
+    <div v-for="(item, index) in props.tabList" :key="item.id" class="tab-view h-full mb-0"
       :style="{ transform: `translate(calc(-100%*${activeTab}))` }">
       <slot :name="`tab${index}`"> tab {{ item.title }} </slot>
     </div>
