@@ -1,49 +1,29 @@
 <template>
   <main>
-    <ServiceTabsView v-model="activeTab">
-      <template #tab0>
-        <div class="py-4 bg-primary-50 h-screen">
-          <DailyForm />
+    <div class="py-4 bg-primary-50 min-h-screen">
+      <div class="w-full h-40 bg-white">
+        image
+      </div>
+      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
+        <!-- Content inside the container -->
+        <div class="w-full h-auto flex-1 text-center m-0">
+          <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
+          <p class="text-sm font-bold mt-1">健康數據</p>
         </div>
-      </template>
-      <template #tab1>
-        <div class="p-4">
-          <section class="grid grid-cols-2">
-            <button class="situation-button" :class="{ 'situation-button--active': activeSituation === 'apply' }"
-              @click="activeSituation = 'apply'">
-              申辦中({{ applyRecord.length }})
-            </button>
-            <button class="situation-button" :class="{ 'situation-button--active': activeSituation === 'done' }"
-              @click="activeSituation = 'done'">
-              已結案({{ finishRecord.length }})
-            </button>
-          </section>
-          <section v-if="!activeRecord.length" class="flex flex-col items-center pt-40">
-            <p class="text-primary-500 font-bold">
-              目前無{{ activeSituation === 'apply' ? '申辦' : '結案' }}紀錄
-            </p>
-          </section>
-          <section v-else>
-            <ul class="py-4 grid grid-cols-1 gap-y-4">
-              <li v-for="item in activeRecord" :key="item.id">
-                <p>{{ item.name }}</p>
-                <div class="mt-1 mb-4 flex justify-between pr-6">
-                  <div class="text-gray-500 text-sm">
-                    <p class="mb-1">{{ item.id }}</p>
-                    <p>申報日期：{{ item.date }}</p>
-                  </div>
-                  <div class="flex flex-col items-center">
-                    <img src="@/assets/images/review-icon.svg" />
-                    <span class="text-sm">{{ item.status }}</span>
-                  </div>
-                </div>
-                <ServiceStep :stepCount="item.total_step" :activeStep="item.current_step" />
-              </li>
-            </ul>
-          </section>
+        <div class="w-full h-auto flex-1 text-center m-0">
+          <img src="/images/tp_icon_dashboard_reports.svg" alt="Icon 2" class="w-10 h-10 mx-auto" />
+          <p class="text-sm font-bold mt-1">孕期建議</p>
         </div>
-      </template>
-    </ServiceTabsView>
+        <div class="w-full h-auto flex-1 text-center m-0">
+          <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
+          <p class="text-sm font-bold mt-1">里程碑</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4">
+        <!-- Content inside the container -->
+        布告欄
+      </div>
+    </div>
   </main>
 </template>
 
