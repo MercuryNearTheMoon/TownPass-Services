@@ -7,35 +7,79 @@ const props = defineProps<{
   chartSelect?: string;
 }>();
 
-// 定义数据集
-const data1 = [10, 41, 35, 51, 49, 62, 69, 91, 148];
-const data2 = [34, 10, 5, 51, 30, 72, 129, 51, 148];
-const data3 = [123, 120, 50, 24, 60, 10, 46, 170, 10];
+// 硬编码的假数据
+const data1 = [
+  { x: new Date('2023-01-01').getTime(), y: 45 },
+  { x: new Date('2023-01-02').getTime(), y: 60 },
+  { x: new Date('2023-01-03').getTime(), y: 35 },
+  { x: new Date('2023-01-04').getTime(), y: 70 },
+  { x: new Date('2023-01-05').getTime(), y: 55 },
+  { x: new Date('2023-01-06').getTime(), y: 85 },
+  { x: new Date('2023-01-07').getTime(), y: 90 },
+  { x: new Date('2023-01-24').getTime(), y: 75 },
+  { x: new Date('2023-01-26').getTime(), y: 80 },
+  { x: new Date('2023-01-31').getTime(), y: 65 },
+  { x: new Date('2023-02-07').getTime(), y: 95 },
+  { x: new Date('2023-02-09').getTime(), y: 100 },
+  { x: new Date('2023-02-14').getTime(), y: 85 },
+  { x: new Date('2023-02-16').getTime(), y: 110 },
+  { x: new Date('2023-02-21').getTime(), y: 120 },
+];
+
+const data2 = [
+  { x: new Date('2023-01-02').getTime(), y: 30 },
+  { x: new Date('2023-01-04').getTime(), y: 25 },
+  { x: new Date('2023-01-08').getTime(), y: 50 },
+  { x: new Date('2023-01-11').getTime(), y: 65 },
+  { x: new Date('2023-01-13').getTime(), y: 45 },
+  { x: new Date('2023-01-18').getTime(), y: 55 },
+  { x: new Date('2023-01-20').getTime(), y: 40 },
+  { x: new Date('2023-01-25').getTime(), y: 70 },
+  { x: new Date('2023-01-28').getTime(), y: 55 },
+  { x: new Date('2023-02-02').getTime(), y: 75 },
+  { x: new Date('2023-02-10').getTime(), y: 60 },
+  { x: new Date('2023-02-13').getTime(), y: 80 },
+  { x: new Date('2023-02-15').getTime(), y: 45 },
+  { x: new Date('2023-02-19').getTime(), y: 90 },
+];
+
+const data3 = [
+  { x: new Date('2023-01-02').getTime(), y: 80 },
+  { x: new Date('2023-01-04').getTime(), y: 100 },
+  { x: new Date('2023-01-07').getTime(), y: 90 },
+  { x: new Date('2023-01-12').getTime(), y: 110 },
+  { x: new Date('2023-01-14').getTime(), y: 95 },
+  { x: new Date('2023-01-19').getTime(), y: 120 },
+  { x: new Date('2023-01-22').getTime(), y: 130 },
+  { x: new Date('2023-01-26').getTime(), y: 115 },
+  { x: new Date('2023-01-29').getTime(), y: 125 },
+  { x: new Date('2023-02-01').getTime(), y: 140 },
+  { x: new Date('2023-02-05').getTime(), y: 135 },
+  { x: new Date('2023-02-11').getTime(), y: 145 },
+  { x: new Date('2023-02-14').getTime(), y: 150 },
+  { x: new Date('2023-02-18').getTime(), y: 155 },
+];
+
+
 
 // 计算属性来动态获取数据
 const chartData = computed(() => {
   switch (props.chartSelect) {
     case 'chart1':
-      console.log(1);
       return data1;
     case 'chart2':
-      console.log(2);
       return data2;
     case 'chart3':
-      console.log(3);
       return data3;
     default:
       return data1; // 默认情况
   }
 });
 
-// 定义 x 轴分类
-const xaxis = ref(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']);
-
 // 计算属性来定义 series
 const series = computed(() => [
   {
-    name: 'Desktops',
+    name: 'XYZ MOTORS',
     data: chartData.value // 使用计算属性的值
   }
 ]);
@@ -44,7 +88,7 @@ const series = computed(() => [
 const chartOptions = {
   chart: {
     height: 350,
-    type: 'line',
+    type: 'bar',
     zoom: {
       enabled: false
     }
@@ -53,20 +97,71 @@ const chartOptions = {
     enabled: false
   },
   stroke: {
-    curve: 'straight'
+    curve: 'straight' // 使用平滑曲线
   },
   title: {
-    text: 'Product Trends by Month',
+    text: 'Stock Price Movement',
     align: 'left'
   },
   grid: {
-    row: {
-      colors: ['#f3f3f3', 'transparent'], // 每行的颜色
+    borderColor: '#e0e0e0', // 网格线颜色
+    strokeDashArray: 5, // 网格线样式
+    column: {
+      colors: ['#f8f8f8', 'transparent'],
       opacity: 0.5
-    }
+    },
+    xaxis:{
+      lines:{
+        show:true
+      }
+    },
+    yaxis:{
+      lines:{
+        show:false
+      }
+    },
+    row: {
+      colors: ['#e5e5e5', 'transparent'],
+      opacity: 0.5
+    }, 
+    
+  },
+  yaxis: {
+    labels: {
+      formatter: function (val: number) {
+        return val.toFixed(0); // 格式化 y 轴值
+      },
+    },
+    title: {
+      text: 'Value'
+    },
   },
   xaxis: {
-    categories: xaxis.value // x 轴的分类
+    type: 'datetime',
+    labels: {
+      formatter: function (val: number) {
+        const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
+        const currentDataX = val; // 当前 x 值
+        if(firstDataX === currentDataX) return ``
+        const weeksDifference = Math.floor((currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)); // 计算周数
+        return `第 ${weeksDifference} 周`; // 返回格式化的周数
+      }
+    },
+    tickAmount: 6 // 这里设置每8个点显示一个x轴标签，可以根据数据量进行调整
+  },
+  tooltip: {
+    shared: false,
+    x: {
+      formatter: function (val: number) {
+        const date = new Date(val);
+        return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`; // 格式化为 "年/月/日"
+      }
+    },
+    y: {
+      formatter: function (val: number) {
+        return val.toFixed(0); // 格式化 y 值
+      }
+    }
   }
 };
 </script>
