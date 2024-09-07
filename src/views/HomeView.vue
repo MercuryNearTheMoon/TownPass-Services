@@ -2,7 +2,9 @@
   <main>
     <!-- <MilestoneComponent /> -->
     <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="w-full h-40 bg-white">image</div>
+      <div class="w-full bg-white">
+        <img src="/images/image.png" alt="Description of Image" class="w-full h-40 object-cover" />
+      </div>
       <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
         <!-- Content inside the container -->
         <div class="w-full h-auto flex-1 text-center m-0">
@@ -25,6 +27,12 @@
           <RouterLink to="/milestone">
             <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
             <p class="text-sm font-bold mt-1">里程碑</p>
+          </RouterLink>
+        </div>
+        <div class="w-full h-auto flex-1 text-center m-0">
+          <RouterLink to="/surrounding-service">
+            <img src="/images/tp_icon_location_search.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
+            <p class="text-sm font-bold mt-1">周遭醫療</p>
           </RouterLink>
         </div>
       </div>
