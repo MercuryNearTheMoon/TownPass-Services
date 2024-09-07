@@ -74,8 +74,8 @@ let markerCluster: any = null;
  */
 const currentLocation = ref<{ lat: number; lng: number; results: any[] }>({
   // 預設經緯度在信義區附近
-  lat: 25.0325917,
-  lng: 121.5624999,
+  lat: 25.02337981216714,
+  lng: 121.53399038508809,
   results: []
 });
 
@@ -176,7 +176,7 @@ const initMap = (lat: number, lng: number) => {
     // });
 
     // get current location
-    getPositionClick();
+    // getPositionClick();
 
     // 在地圖的dragend事件上使用該函數
     // map.addListener('dragend', function () {
@@ -204,8 +204,8 @@ const getPositionClick = () => {
 const successCallback = (position: GeolocationPosition) => {
   console.log(position.coords.latitude, position.coords.longitude)
 
-  currentLocation.value.lat = position.coords.latitude;
-  currentLocation.value.lng = position.coords.longitude;
+  // currentLocation.value.lat = position.coords.latitude;
+  // currentLocation.value.lng = position.coords.longitude;
 
   // 使用者目前位置
   // marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
@@ -213,9 +213,6 @@ const successCallback = (position: GeolocationPosition) => {
 };
 const errorCallback = (error: any) => {
   console.log(error);
-
-  currentLocation.value.lat = 0;
-  currentLocation.value.lng = 0;
 
   if (error.code === 1) {
     // 使用者未開啟定位
@@ -252,112 +249,112 @@ const formatSpotData = (
 };
 
 const updateMarkers = async () => {
-  if (!selectedSearchData.value.id) {
-    clearMarkers();
-    return;
-  }
+  // if (!selectedSearchData.value.id) {
+  //   clearMarkers();
+  //   return;
+  // }
 
-  const bounds = map.getBounds();
-  if (!bounds) return;
+  // const bounds = map.getBounds();
+  // if (!bounds) return;
 
-  filteredSpotList.value = searchSpotList.value
-    .map((spot) => ({
-      ...spot,
-      position: new google.maps.LatLng(spot.lat, spot.lng)
-    }))
-    .filter((spot) => bounds.contains(spot.position))
-    .map((spot) => ({
-      ...spot,
-      distance: parseFloat(
-        (
-          google.maps.geometry.spherical.computeDistanceBetween(
-            new google.maps.LatLng(currentLocation.value.lat, currentLocation.value.lng),
-            new google.maps.LatLng(spot.lat, spot.lng)
-          ) / 1000
-        ).toFixed(1)
-      )
-    }));
+  // filteredSpotList.value = searchSpotList.value
+  //   .map((spot) => ({
+  //     ...spot,
+  //     position: new google.maps.LatLng(spot.lat, spot.lng)
+  //   }))
+  //   .filter((spot) => bounds.contains(spot.position))
+  //   .map((spot) => ({
+  //     ...spot,
+  //     distance: parseFloat(
+  //       (
+  //         google.maps.geometry.spherical.computeDistanceBetween(
+  //           new google.maps.LatLng(currentLocation.value.lat, currentLocation.value.lng),
+  //           new google.maps.LatLng(spot.lat, spot.lng)
+  //         ) / 1000
+  //       ).toFixed(1)
+  //     )
+  //   }));
 
-  console.log('filteredSpotList:', filteredSpotList.value);
+  // console.log('filteredSpotList:', filteredSpotList.value);
 
-  // Clear existing markers
-  clearMarkers();
+  // // Clear existing markers
+  // clearMarkers();
 
-  let currentFocusedMarker: any = null;
+  // let currentFocusedMarker: any = null;
 
-  filteredSpotList.value.forEach((spot) => {
-    const greenDotIcon = {
-      url: greenDotIconUrl, // 預設綠色小圓點圖標的路徑
-      scaledSize: new google.maps.Size(20, 20), // 設置圖標的大小
-      anchor: new google.maps.Point(10, 20) // 設置圖標的錨點，使其中心對齊底部
-    };
+  // filteredSpotList.value.forEach((spot) => {
+  //   const greenDotIcon = {
+  //     url: greenDotIconUrl, // 預設綠色小圓點圖標的路徑
+  //     scaledSize: new google.maps.Size(20, 20), // 設置圖標的大小
+  //     anchor: new google.maps.Point(10, 20) // 設置圖標的錨點，使其中心對齊底部
+  //   };
 
-    const marker = new google.maps.Marker({
-      position: { lat: Number(spot.lat), lng: Number(spot.lng) },
-      map,
-      icon: greenDotIcon
-    });
+  //   const marker = new google.maps.Marker({
+  //     position: { lat: Number(spot.lat), lng: Number(spot.lng) },
+  //     map,
+  //     icon: greenDotIcon
+  //   });
 
-    marker.addListener('click', () => {
-      if (currentFocusedMarker && currentFocusedMarker !== marker) {
-        // 恢復之前聚焦的標記為預設圖標
-        currentFocusedMarker.setIcon(greenDotIcon);
-        selectedSpot.value = null;
-      }
+  //   marker.addListener('click', () => {
+  //     if (currentFocusedMarker && currentFocusedMarker !== marker) {
+  //       // 恢復之前聚焦的標記為預設圖標
+  //       currentFocusedMarker.setIcon(greenDotIcon);
+  //       selectedSpot.value = null;
+  //     }
 
-      const focusedIcon = {
-        url: defaultFocusIconUrl, // 點擊後聚焦圖標的路徑
-        scaledSize: new google.maps.Size(48, 69), // 設置圖標的大小
-        anchor: new google.maps.Point(24, 69) // 設置圖標的錨點，使其中心對齊底部
-      };
+  //     const focusedIcon = {
+  //       url: defaultFocusIconUrl, // 點擊後聚焦圖標的路徑
+  //       scaledSize: new google.maps.Size(48, 69), // 設置圖標的大小
+  //       anchor: new google.maps.Point(24, 69) // 設置圖標的錨點，使其中心對齊底部
+  //     };
 
-      // 設置當前標記為聚焦圖標
-      marker.setIcon(focusedIcon);
-      currentFocusedMarker = marker;
+  //     // 設置當前標記為聚焦圖標
+  //     marker.setIcon(focusedIcon);
+  //     currentFocusedMarker = marker;
 
-      // 獲取所選擇的 spot 的所有屬性
-      selectedSpot.value = spot;
-      console.log('Selected spot:', selectedSpot);
-    });
+  //     // 獲取所選擇的 spot 的所有屬性
+  //     selectedSpot.value = spot;
+  //     console.log('Selected spot:', selectedSpot);
+  //   });
 
-    markers.push(marker);
-  });
+  //   markers.push(marker);
+  // });
 
-  // Add a marker clusterer to manage the markers.
-  markerCluster = new MarkerClusterer({
-    markers,
-    map,
-    algorithm: new SuperClusterAlgorithm({ radius: 300 }), // 设置gridSize
-    renderer: {
-      render({ count, position }, stats) {
-        // change color if this cluster has more markers than the mean cluster
-        const circleRadius =
-          count > Math.max(10, stats.clusters.markers.mean)
-            ? count > Math.max(100, stats.clusters.markers.mean)
-              ? '100'
-              : '90'
-            : '80';
-        // create svg literal with fill color
-        const svg =
-          window.btoa(`<svg fill="#2eb6c7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="50" height="50">
-          <circle fill="#2eb6c7" cx="120" cy="120" opacity=".6" r="${circleRadius}" />
-          <circle fill="#fff" cx="120" cy="120" r="70" />
-          <text x="50%" y="50%" style="fill:#2eb6c7" text-anchor="middle" font-size="50" dominant-baseline="middle" font-family="roboto,arial,sans-serif">${count}</text>
-          </svg>`);
+  // // Add a marker clusterer to manage the markers.
+  // markerCluster = new MarkerClusterer({
+  //   markers,
+  //   map,
+  //   algorithm: new SuperClusterAlgorithm({ radius: 300 }), // 设置gridSize
+  //   renderer: {
+  //     render({ count, position }, stats) {
+  //       // change color if this cluster has more markers than the mean cluster
+  //       const circleRadius =
+  //         count > Math.max(10, stats.clusters.markers.mean)
+  //           ? count > Math.max(100, stats.clusters.markers.mean)
+  //             ? '100'
+  //             : '90'
+  //           : '80';
+  //       // create svg literal with fill color
+  //       const svg =
+  //         window.btoa(`<svg fill="#2eb6c7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="50" height="50">
+  //         <circle fill="#2eb6c7" cx="120" cy="120" opacity=".6" r="${circleRadius}" />
+  //         <circle fill="#fff" cx="120" cy="120" r="70" />
+  //         <text x="50%" y="50%" style="fill:#2eb6c7" text-anchor="middle" font-size="50" dominant-baseline="middle" font-family="roboto,arial,sans-serif">${count}</text>
+  //         </svg>`);
 
-        // create marker using svg icon
-        return new google.maps.Marker({
-          position,
-          icon: {
-            url: `data:image/svg+xml;base64,${svg}`,
-            scaledSize: new google.maps.Size(75, 75)
-          },
-          // adjust zIndex to be above other markers
-          zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count
-        });
-      }
-    }
-  });
+  //       // create marker using svg icon
+  //       return new google.maps.Marker({
+  //         position,
+  //         icon: {
+  //           url: `data:image/svg+xml;base64,${svg}`,
+  //           scaledSize: new google.maps.Size(75, 75)
+  //         },
+  //         // adjust zIndex to be above other markers
+  //         zIndex: Number(google.maps.Marker.MAX_ZINDEX) + count
+  //       });
+  //     }
+  //   }
+  // });
 };
 
 const clearMarkers = () => {
@@ -375,9 +372,10 @@ watch(searchSpotList, updateMarkers);
 
 <template>
   <div class="pb-8 h-screen">
-    <div>
-      {{ currentLocation }}
+    <div v-if="isShowGeoError">
+      no gps
     </div>
+    {{ currentLocation }}
   </div>
 
   <!-- geo modal -->
