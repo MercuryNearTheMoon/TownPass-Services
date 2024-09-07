@@ -13,6 +13,7 @@ import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
 import type { User } from '@/stores/user';
 import PregnancyHealthForm from '@/components/organisms/PregnancyHealthForm.vue';
+import DailyForm from '@/components/organisms/DailyForm.vue';
 
 const store = useFormStore();
 
@@ -145,11 +146,13 @@ const activeRecord = computed(() =>
     <ServiceTabsView v-model="activeTab">
       <template #tab0>
         <div class="py-4 mb-0 bg-primary-50">
-          <PregnancyHealthForm></PregnancyHealthForm>
+          <DailyForm></DailyForm>
         </div>
       </template>
       <template #tab1>
-        <div class="p-4">form gose here</div>
+        <div class="py-4 mb-0 bg-primary-50">
+          <PregnancyHealthForm></PregnancyHealthForm>
+        </div>
       </template>
     </ServiceTabsView>
   </main>
