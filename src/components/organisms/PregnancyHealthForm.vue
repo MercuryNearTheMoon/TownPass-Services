@@ -41,7 +41,7 @@
           )
         "
       >
-      <RouterLink to="/charttest">
+      <RouterLink to="/health-stats">
         儲存
     </RouterLink>
       </BaseButton>
