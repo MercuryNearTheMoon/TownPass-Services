@@ -8,7 +8,12 @@ const props = defineProps<{
 }>();
 
 // 硬编码的假数据
-const data1 = [
+interface DataPoint {
+  x: number; // 时间戳
+  y: number; // 值
+}
+
+const data1: DataPoint[] = [
   { x: new Date('2023-01-01').getTime(), y: 45 },
   { x: new Date('2023-01-02').getTime(), y: 60 },
   { x: new Date('2023-01-03').getTime(), y: 35 },
@@ -25,6 +30,47 @@ const data1 = [
   { x: new Date('2023-02-16').getTime(), y: 110 },
   { x: new Date('2023-02-21').getTime(), y: 120 },
 ];
+
+// 线性插值函数
+function linearInterpolate(x: number, x1: number, y1: number, x2: number, y2: number): number {
+  return y1 + ((y2 - y1) / (x2 - x1)) * (x - x1);
+}
+
+// 插值算法
+function interpolateData(data: DataPoint[]): DataPoint[] {
+  const result: DataPoint[] = [];
+  
+  // 按时间排序数据
+  data.sort((a, b) => a.x - b.x);
+
+  // 获取时间范围
+  const startDate = new Date(data[0].x);
+  const endDate = new Date(data[data.length - 1].x);
+
+  // 遍历每一天并插值
+  for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+    const currentTime = date.getTime();
+    const existingPoint = data.find(point => point.x === currentTime);
+
+    if (existingPoint) {
+      // 如果有该日期的数据点，直接加入结果
+      result.push(existingPoint);
+    } else {
+      // 查找前后两个已知点
+      const prevPoint = data.filter(point => point.x < currentTime).pop();
+      const nextPoint = data.find(point => point.x > currentTime);
+
+      if (prevPoint && nextPoint) {
+        // 使用线性插值计算
+        const interpolatedY = linearInterpolate(currentTime, prevPoint.x, prevPoint.y, nextPoint.x, nextPoint.y);
+        result.push({ x: currentTime, y: interpolatedY });
+      }
+    }
+  }
+
+  return result;
+}
+
 
 const data2 = [
   { x: new Date('2023-01-02').getTime(), y: 30 },
@@ -66,13 +112,14 @@ const data3 = [
 const chartData = computed(() => {
   switch (props.chartSelect) {
     case 'chart1':
-      return data1;
+      console.log(interpolateData(data1))
+      return interpolateData(data1);
     case 'chart2':
-      return data2;
+      return interpolateData(data2);
     case 'chart3':
-      return data3;
+      return interpolateData(data3);
     default:
-      return data1; // 默认情况
+      return interpolateData(data1); // 默认情况
   }
 });
 
@@ -107,7 +154,7 @@ const chartOptions = {
     borderColor: '#e0e0e0', // 网格线颜色
     strokeDashArray: 5, // 网格线样式
     column: {
-      colors: ['#f8f8f8', 'transparent'],
+      colors: ['#121212', 'transparent'],
       opacity: 0.5
     },
     xaxis:{
@@ -120,11 +167,6 @@ const chartOptions = {
         show:false
       }
     },
-    row: {
-      colors: ['#e5e5e5', 'transparent'],
-      opacity: 0.5
-    }, 
-    
   },
   yaxis: {
     labels: {
@@ -137,17 +179,17 @@ const chartOptions = {
     },
   },
   xaxis: {
-    type: 'datetime',
+    type: 'category',
     labels: {
       formatter: function (val: number) {
         const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
         const currentDataX = val; // 当前 x 值
-        if(firstDataX === currentDataX) return ``
+        if(firstDataX === currentDataX) return `第1周`
         const weeksDifference = Math.floor((currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)); // 计算周数
-        return `第 ${weeksDifference} 周`; // 返回格式化的周数
+        return `第 ${weeksDifference+2} 周`; // 返回格式化的周数
       }
     },
-    tickAmount: 6 // 这里设置每8个点显示一个x轴标签，可以根据数据量进行调整
+    tickAmount: 7 // 这里设置每8个点显示一个x轴标签，可以根据数据量进行调整,
   },
   tooltip: {
     shared: false,
