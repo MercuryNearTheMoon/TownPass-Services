@@ -14,23 +14,23 @@
           <!-- Content inside the container -->
           <div class="w-full h-auto flex-1 text-center m-0">
             <RouterLink to="health-stats">
-              <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
+              <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
               <p class="text-sm font-bold mt-1">健康數據</p>
             </RouterLink>
           </div>
           <div class="w-full h-auto flex-1 text-center m-0">
             <RouterLink to="/qna">
-              <img
-                src="/images/tp_icon_dashboard_reports.svg"
-                alt="Icon 2"
-                class="w-10 h-10 mx-auto"
-              />
+              <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
               <p class="text-sm font-bold mt-1">孕期建議</p>
             </RouterLink>
           </div>
           <div class="w-full h-auto flex-1 text-center m-0">
             <RouterLink to="/milestone">
-              <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
+              <img
+                src="/images/tp_icon_dashboard_reports.svg"
+                alt="Icon 2"
+                class="w-10 h-10 mx-auto"
+              />
               <p class="text-sm font-bold mt-1">里程碑</p>
             </RouterLink>
           </div>
@@ -45,7 +45,7 @@
             </RouterLink>
           </div>
         </div>
-        <div class="m-4 font-blod">相關新聞</div>
+        <div class="mx-4 mt-4 mb-1" style="font-weight: bolder; color: black;">相關新聞</div>
         <BaseCard>
           <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
             <div class="flex flex-col" @click="onMapOpenClick(data)">
