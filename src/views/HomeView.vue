@@ -1,36 +1,53 @@
 <template>
-  <main>
-    <!-- <MilestoneComponent /> -->
-    <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="w-full h-40 bg-white">image</div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
-        <!-- Content inside the container -->
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="health-stats">
-            <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">健康數據</p>
-          </RouterLink>
+  <v-app>
+    <main>
+      <!-- <MilestoneComponent /> -->
+      <div class="py-4 bg-primary-50 min-h-screen">
+        <div class="w-full bg-white">
+          <img
+            src="/images/image.png"
+            alt="Description of Image"
+            class="w-full h-40 object-cover"
+          />
         </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/qna">
-            <img
-              src="/images/tp_icon_dashboard_reports.svg"
-              alt="Icon 2"
-              class="w-10 h-10 mx-auto"
-            />
-            <p class="text-sm font-bold mt-1">孕期建議</p>
-          </RouterLink>
+        <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
+          <!-- Content inside the container -->
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="health-stats">
+              <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
+              <p class="text-sm font-bold mt-1">健康數據</p>
+            </RouterLink>
+          </div>
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="/qna">
+              <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
+              <p class="text-sm font-bold mt-1">孕期建議</p>
+            </RouterLink>
+          </div>
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="/milestone">
+              <img
+                src="/images/tp_icon_dashboard_reports.svg"
+                alt="Icon 2"
+                class="w-10 h-10 mx-auto"
+              />
+              <p class="text-sm font-bold mt-1">里程碑</p>
+            </RouterLink>
+          </div>
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="/surrounding-service">
+              <img
+                src="/images/tp_icon_location_search.svg"
+                alt="Icon 3"
+                class="w-10 h-10 mx-auto"
+              />
+              <p class="text-sm font-bold mt-1">周遭醫療</p>
+            </RouterLink>
+          </div>
         </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/milestone">
-            <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">里程碑</p>
-          </RouterLink>
-        </div>
-      </div>
-      <BaseCard>
-        <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
-          <RouterLink :to="{ path: '/news', query: { title: data.title, content: data.content, url: data.url, date: data.date } }">
+        <div class="mx-4 mt-4 mb-1" style="font-weight: bolder; color: black;">相關新聞</div>
+        <BaseCard>
+          <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
             <div class="flex flex-col" @click="onMapOpenClick(data)">
               <p class="news-title-container">
                 <span class="news-from">{{ data.from }}</span>
@@ -38,11 +55,24 @@
               </p>
               <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
             </div>
-          </RouterLink>
-        </div>
-      </BaseCard>
-    </div>
-  </main>
+          </div>
+        </BaseCard>
+      </div>
+      <v-bottom-sheet v-model="isDialogOpen">
+        <v-card
+          max-height="500px"
+          style="border-radius: 16px 16px 0px 0px; margin-bottom: 0; padding-top: 20px"
+        >
+          <v-card-title class="news-title">{{ selectedNews?.title }}</v-card-title>
+          <v-card-text>
+            <div class="news-content">{{ selectedNews?.content }}</div>
+            <div class="news-url text-primary-500">{{ selectedNews?.url }}</div>
+            <div class="news-date text-grey-400">{{ selectedNews?.date }}</div>
+          </v-card-text>
+        </v-card>
+      </v-bottom-sheet>
+    </main>
+  </v-app>
 </template>
 
 <script setup lang="ts">
@@ -58,15 +88,18 @@ import caseProgressJson from '../../public/mock/case_progress.json';
 import type { User } from '@/stores/user';
 import newsData from '@/utils/newsData.json';
 import BaseCard from '@/components/atoms/BaseCard.vue';
-import BaseDialog from '@/components/atoms/BaseDialog.vue';
-import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
 
-const isMapDialogOpen = ref(false);
-const dialogData = ref<{ title: string; content: string }>({ title: '', content: '' });
-const onMapOpenClick = (data: { title: string; content: string }) => {
-  dialogData.value = data;
-  isMapDialogOpen.value = true;
-  console.log('open');
+const isDialogOpen = ref(false);
+const selectedNews = ref({ title: '', content: '', date: '', url: '' });
+
+const onMapOpenClick = (newsItem: {
+  title: string;
+  content: string;
+  date: string;
+  url: string;
+}) => {
+  selectedNews.value = newsItem;
+  isDialogOpen.value = !isDialogOpen.value;
 };
 
 const store = useFormStore();
@@ -252,5 +285,33 @@ html {
 
 .news-from {
   color: #212121 !important;
+}
+::v-deep .news-container {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 15px;
+}
+
+::v-deep .news-title-container {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(146, 146, 146);
+  margin-bottom: 5px;
+}
+.news-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.news-content {
+  font-size: 16px;
+  margin-top: 10px;
+}
+.news-url {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.news-date {
+  font-size: 14px;
+  margin-top: 10px;
 }
 </style>

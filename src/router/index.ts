@@ -3,7 +3,6 @@ import HomeView from '../views/HomeView.vue';
 import FormView from '../views/FormView.vue';
 import SurroundingServiceView from '../views/SurroundingServiceView.vue';
 import TopQnAListView from '../views/TopQnAListView.vue';
-import QnAListView from '../views/QnAListView.vue';
 import CouponView from '../views/CouponView.vue';
 import CouponListView from '../views/CouponListView.vue';
 import HotSpotView from '../views/HotSpotView.vue';
@@ -13,7 +12,6 @@ import ChartTest from '../views/ChartTest.vue';
 import PregnancyForm from '../views/PregnancyForm.vue';
 import HealthStats from '../views/HealthStats.vue';
 import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
-import NewsDialog from '@/components/organisms/NewsDialog.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,19 +37,9 @@ const router = createRouter({
       component: TopQnAListView
     },
     {
-      path: '/qna/categories',
-      name: 'qna-list',
-      component: QnAListView
-    },
-    {
       path: '/charttest',
       name: 'chart-test',
       component: ChartTest
-    },
-    {
-      path: '/news',
-      name: 'news',
-      component: NewsDialog
     },
     {
       path: '/coupon',
