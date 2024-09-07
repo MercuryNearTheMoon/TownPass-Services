@@ -58,9 +58,15 @@ export async function getAllDocuments() {
     // Map through each document and extract the data
     const documents = querySnapshot.docs.map((doc) => ({
       id: doc.id,
+      time: doc.data().date,
       ...doc.data()
     }));
     console.log('Documents retrieved: ', documents);
+
+    documents.sort((a, b) => b.time - a.time);
+
+    console.log('Documents sorted: ', documents);
+
     return documents; // Return all document data
   } catch (error) {
     console.error('Error fetching documents: ', error);

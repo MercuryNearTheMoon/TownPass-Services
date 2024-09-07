@@ -1,19 +1,25 @@
 <template>
     <div class=" h-screen">
+        <BaseLoader v-if="isLoading" />
         <BaseCard>
             <div v-for="([key, item], index) in Object.entries(store.form)" :key="key">
-                <div class="py-3">
+                <div class="py-3"
+                    v-if="(item.label !== store.form.week.label) || (item.label === store.form.week.label && !item.disabled)">
                     <span v-if="item.required" style="color: red; font-weight: bold;">*</span>
                     <span style="font-weight: bold;">{{ item.label }}</span>
                     <DatePicker v-model="item.data" :required="item.required"
                         v-if="item.label === store.form.date.label" />
-                    <BaseInput v-model="item.data" :required="item.required" placeholder="Input Text" v-else />
+                    <BaseInput v-model="item.data" :required="item.required"
+                        :placeholder="item.data !== '' ? item.data : 'Input Text'" v-else />
                 </div>
             </div>
         </BaseCard>
         <div class="flex gap-3 mx-4 my-8">
             <BaseButton class="flex-grow" outline @click="submitForm">取消</BaseButton>
-            <BaseButton class="flex-grow" @click="resetForm">儲存</BaseButton>
+            <BaseButton class="flex-grow"
+                @click="insertDocument(new Date(store.form.date.data), store.form.week.data, store.form.weight.data, store.form.blood.data)">
+                儲存
+            </BaseButton>
         </div>
     </div>
 </template>
@@ -21,9 +27,35 @@
 <script setup lang="ts">
 import BaseCard from '@/components/atoms/BaseCard.vue';
 import DatePicker from '../molecules/DatePicker.vue';
-import BaseInput from '@/components/atoms/BaseInput.vue'; // 確保 BaseInput 有被導入
-import { reactive } from 'vue';
+import BaseInput from '@/components/atoms/BaseInput.vue';
+import { onMounted, reactive } from 'vue';
 import BaseButton from '../atoms/BaseButton.vue';
+import { insertDocument, getAllDocuments } from '@/api/pregnancy';
+import BaseLoader from '@/components/atoms/BaseLoader.vue';
+import { ref } from 'vue';
+
+const isLoading = ref(true);
+
+onMounted(async () => {
+    try {
+        const data = await getAllDocuments();
+        console.log("Fetched data:", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+            const today = new Date();
+            const fetchedDate = new Date(data[0].date.seconds * 1000);
+            const dayDifference = today.getDay() - fetchedDate.getDay();
+            console.log("Day difference:", dayDifference);
+            console.log("Today:", today);
+            console.log("Fetched date:", fetchedDate);
+            store.form.week.data = data[0].week + dayDifference;
+            store.form.week.disabled = true;
+        }
+    } catch (error) {
+        console.error("Error fetching documents:", error);
+    }
+    isLoading.value = false;
+});
 
 const store = reactive({
     form: {
@@ -35,7 +67,8 @@ const store = reactive({
         week: {
             label: '週次',
             data: '',
-            required: true
+            required: true,
+            disabled: false
         },
         weight: {
             label: '體重',
