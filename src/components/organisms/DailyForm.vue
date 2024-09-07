@@ -28,20 +28,22 @@
     </BaseCard>
     <div class="flex gap-3 mx-4 my-8">
       <BaseButton class="flex-grow" outline @click="submitForm">取消</BaseButton>
-      <BaseButton
-        class="flex-grow"
-        @click="
-          insertDailyDocument(
-            'pregnancy-health',
-            new Date(store.form.date.data),
-            store.form.week.data,
-            store.form.weight.data,
-            store.form.blood.data
-          )
-        "
-      >
-        儲存
-      </BaseButton>
+      
+        <BaseButton
+          class="flex-grow"
+          @click="
+            insertDailyDocument(
+              'pregnancy-health',
+              new Date(store.form.date.data),
+              store.form.week.data,
+              store.form.weight.data,
+              store.form.blood.data
+            )
+          "
+        ><RouterLink to="/charttest">
+          儲存
+      </RouterLink> 
+        </BaseButton>
     </div>
   </div>
 </template>
