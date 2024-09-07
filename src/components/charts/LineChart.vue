@@ -13,7 +13,6 @@ interface DataPoint {
   y: number; // 值
 }
 
-
 const data1: DataPoint[] = [
   { x: new Date('2023-01-01').getTime(), y: 45 },
   { x: new Date('2023-01-02').getTime(), y: 60 },
@@ -132,11 +131,11 @@ const chartData = computed(() => {
 
   return dataToReturn;
 });
-const intervalNum = computed(()=>{
-    const totalDays = ((chartData.value[chartData.value.length - 1].x - chartData.value[0].x) / (24 * 60 * 60 * 1000));
-    return (totalDays / 7)-1
-  }
-)
+const intervalNum = computed(() => {
+  const totalDays =
+    (chartData.value[chartData.value.length - 1].x - chartData.value[0].x) / (24 * 60 * 60 * 1000);
+  return totalDays / 7 - 1;
+});
 // 计算属性来定义 series
 const series = computed(() => [
   {
@@ -146,81 +145,83 @@ const series = computed(() => [
 ]);
 
 // 定义图表选项
-const chartOptions = computed(()=>{return {
-  chart: {
-    height: 350,
-    type: 'line',
-    zoom: {
-      enabled: false
-    }
-  },
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    curve: 'straight' // 使用平滑曲线
-  },
-  title: {
-    text: 'Stock Price Movement',
-    align: 'left'
-  },
-  grid: {
-    borderColor: '#e0e0e0', // 网格线颜色
-    strokeDashArray: 7, // 网格线样式
-    column: {
-      colors: ['#121212', 'transparent'],
-      opacity: 0.5
+const chartOptions = computed(() => {
+  return {
+    chart: {
+      height: 350,
+      type: 'line',
+      zoom: {
+        enabled: false
+      }
     },
-    xaxis: {
-      lines: {
-        show: true
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight' // 使用平滑曲线
+    },
+    title: {
+      text: 'Stock Price Movement',
+      align: 'left'
+    },
+    grid: {
+      borderColor: '#e0e0e0', // 网格线颜色
+      strokeDashArray: 7, // 网格线样式
+      column: {
+        colors: ['#121212', 'transparent'],
+        opacity: 0.5
+      },
+      xaxis: {
+        lines: {
+          show: true
+        }
+      },
+      yaxis: {
+        lines: {
+          show: false
+        }
       }
     },
     yaxis: {
-      lines: {
-        show: false
-      }
-    }
-  },
-  yaxis: {
-    labels: {
-      formatter: function (val: number) {
-        return val.toFixed(0); // 格式化 y 轴值
+      labels: {
+        formatter: function (val: number) {
+          return val.toFixed(0); // 格式化 y 轴值
+        }
+      },
+      title: {
+        text: 'Value'
       }
     },
-    title: {
-      text: 'Value'
-    }
-  },
-  xaxis: {
-    type: 'category',
-    labels: {
-      formatter: function (val: string, timestamp: number){
-        const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
-        const currentDataX = new Date(val).getTime(); // 当前 x 值
-        /* console.log("val",new Date(val)) */
-        // console.log("timestamp",new Date(timestamp))
-        if (firstDataX === currentDataX) return `第1週`;
-        return `第 ${(currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)+1} 週`; // 返回格式化的周数
-      }
+    xaxis: {
+      type: 'category',
+      labels: {
+        formatter: function (val: string, timestamp: number) {
+          const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
+          const currentDataX = new Date(val).getTime(); // 当前 x 值
+          /* console.log("val",new Date(val)) */
+          // console.log("timestamp",new Date(timestamp))
+          if (firstDataX === currentDataX) return `第1週`;
+          return `第 ${(currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000) + 1} 週`; // 返回格式化的周数
+        }
+      },
+      tickAmount: intervalNum.value
     },
-    tickAmount : intervalNum.value
-  },
-  tooltip: {
-    shared: false,
-    x: {
-      formatter: function (val: number) {
-        const date = new Date(val);
-        return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`; // 格式化为 "年/月/日"
-      }
-    },
-    y: {
-      formatter: function (val: number) {
-        return val.toFixed(0); // 格式化 y 值
+    tooltip: {
+      shared: false,
+      x: {
+        formatter: function (val: number) {
+          const date = new Date(val);
+          return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`; // 格式化为 "年/月/日"
+        }
+      },
+      y: {
+        formatter: function (val: number) {
+          return val.toFixed(0); // 格式化 y 值
+        }
       }
     }
-  }
-}});
+  };
+});
 </script>
 
 <template>

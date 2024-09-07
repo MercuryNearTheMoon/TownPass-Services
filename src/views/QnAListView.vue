@@ -91,7 +91,11 @@ const onPanelExpandClick = (id: string) => {
           >
             <div class="overflow-hidden text-grey-700 px-5">
               <p class="whitespace-pre-line" v-html="item.content"></p>
-              <p class="whitespace-pre-line" v-if="item.content_en!=null" v-html="item.content_en"></p>
+              <p
+                class="whitespace-pre-line"
+                v-if="item.content_en != null"
+                v-html="item.content_en"
+              ></p>
             </div>
           </div>
         </li>

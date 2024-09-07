@@ -30,22 +30,15 @@
       </div>
       <BaseCard>
         <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
-          <div class="flex flex-col" @click="onMapOpenClick(data)">
-            <p class="news-title-container">
-              <span class="news-from">{{ data.from }}</span>
-              <span class="news-data">{{ data.date }}</span>
-            </p>
-            <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
-          </div>
-          <BaseDialog
-            v-model:show="isMapDialogOpen"
-            :title="dialogData.title"
-            :content="dialogData.content"
-            :isAlert="true"
-            positiveText="開啟"
-            negativeText="取消"
-            @onPositiveClick="onMapOpenClick"
-          />
+          <RouterLink :to="{ path: '/news', query: { title: data.title, content: data.content, url: data.url, date: data.date } }">
+            <div class="flex flex-col" @click="onMapOpenClick(data)">
+              <p class="news-title-container">
+                <span class="news-from">{{ data.from }}</span>
+                <span class="news-data">{{ data.date }}</span>
+              </p>
+              <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
+            </div>
+          </RouterLink>
         </div>
       </BaseCard>
     </div>
@@ -70,7 +63,7 @@ import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
 
 const isMapDialogOpen = ref(false);
 const dialogData = ref<{ title: string; content: string }>({ title: '', content: '' });
-const onMapOpenClick = (data: { title: string; content: string; }) => {
+const onMapOpenClick = (data: { title: string; content: string }) => {
   dialogData.value = data;
   isMapDialogOpen.value = true;
   console.log('open');
