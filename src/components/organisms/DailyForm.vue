@@ -1,5 +1,5 @@
 <template>
-    <div class=" h-screen">
+    <div class=" h-screen bg-primary-50">
         <BaseLoader v-if="isLoading" />
         <BaseCard>
             <div v-for="([key, item], index) in Object.entries(store.form)" :key="key">
@@ -17,7 +17,7 @@
         <div class="flex gap-3 mx-4 my-8">
             <BaseButton class="flex-grow" outline @click="submitForm">取消</BaseButton>
             <BaseButton class="flex-grow"
-                @click="insertDocument(new Date(store.form.date.data), store.form.week.data, store.form.weight.data, store.form.blood.data)">
+                @click="insertDailyDocument('pregnancy-health', new Date(store.form.date.data), store.form.week.data, store.form.weight.data, store.form.blood.data)">
                 儲存
             </BaseButton>
         </div>
@@ -38,7 +38,7 @@ const isLoading = ref(true);
 
 onMounted(async () => {
     try {
-        const data = await getAllDocuments();
+        const data = await getAllDocuments('pregnancy-health');
         console.log("Fetched data:", data);
 
         if (Array.isArray(data) && data.length > 0) {

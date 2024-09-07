@@ -19,9 +19,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const collectionName = 'pregnancy-health';
-const colRef = collection(db, collectionName);
-
 interface HealthRecord {
   date: Date;
   week: number;
@@ -29,7 +26,37 @@ interface HealthRecord {
   bloodPressure: number;
 }
 
+export async function insertDailyDocument(
+  collectionName: string,
+  date: Date,
+  week: number,
+  weight: number,
+  bloodPressure: number,
+  urineSugar: number,
+  urineProtein: number,
+): Promise<string> {
+  try {
+    // Add a new document with the data
+    const colRef = collection(db, collectionName);
+    const docRef = await addDoc(colRef, {
+      date,
+      week,
+      weight,
+      bloodPressure,
+      urineSugar,
+      urineProtein
+    });
+    console.log('Document written with ID: ', docRef.id);
+    return docRef.id; // Return the document ID
+  } catch (error) {
+    console.error('Error adding document: ', error);
+    throw error;
+  }
+}
+
+
 export async function insertDocument(
+  collectionName: string,
   date: Date,
   week: number,
   weight: number,
@@ -37,6 +64,7 @@ export async function insertDocument(
 ): Promise<string> {
   try {
     // Add a new document with the data
+    const colRef = collection(db, collectionName);
     const docRef = await addDoc(colRef, {
       date,
       week,
@@ -51,9 +79,10 @@ export async function insertDocument(
   }
 }
 
-export async function getAllDocuments() {
+export async function getAllDocuments(collectionName: string): Promise<HealthRecord[]> {
   try {
     // Get all documents from the collection
+    const colRef = collection(db, collectionName);
     const querySnapshot = await getDocs(colRef);
     // Map through each document and extract the data
     const documents = querySnapshot.docs.map((doc) => ({

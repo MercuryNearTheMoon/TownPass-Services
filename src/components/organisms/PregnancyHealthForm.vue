@@ -1,221 +1,112 @@
 <template>
-  <section>
-    <div class="bg-grey-50 px-4 pb-1 flex">
-      <img src="@/assets/images/person-icon.svg" />
-      <span class="ml-2 font-bold">基本資料</span>
+  <div class=" h-screen bg-primary-50">
+    <BaseLoader v-if="isLoading" />
+    <BaseCard>
+      <div v-for="([key, item], index) in Object.entries(store.form)" :key="key">
+        <div class="py-3"
+          v-if="(item.label !== store.form.week.label) || (item.label === store.form.week.label && !item.disabled)">
+          <span v-if="item.required" style="color: red; font-weight: bold;">*</span>
+          <span style="font-weight: bold;">{{ item.label }}</span>
+          <DatePicker v-model="item.data" :required="item.required" v-if="item.label === store.form.date.label" />
+          <BaseInput v-model="item.data" :required="item.required"
+            :placeholder="item.data !== '' ? item.data : 'Input Text'" v-else />
+        </div>
+      </div>
+    </BaseCard>
+    <div class="flex gap-3 mx-4 my-8">
+      <BaseButton class="flex-grow" outline @click="submitForm">取消</BaseButton>
+      <BaseButton class="flex-grow"
+        @click="insertDocument('pregnancy-health-daily', new Date(store.form.date.data), store.form.week.data, store.form.weight.data, store.form.blood.data)">
+        儲存
+      </BaseButton>
     </div>
-    <ul class="px-4 py-2 flex flex-col gap-y-4">
-      <li class="preview-item">
-        <span class="field-name">姓名</span>
-        <span>{{ user?.username }}</span>
-      </li>
-      <li class="preview-item">
-        <span class="field-name">身分證字號</span>
-        <span>{{ user?.idNo }}</span>
-      </li>
-      <li class="preview-item">
-        <span class="field-name">手機號碼</span>
-        <span>{{ user?.phoneNo }}</span>
-      </li>
-      <li class="preview-item">
-        <span class="field-name">電子信箱</span>
-        <span>{{ props.submitForm?.mail }}</span>
-      </li>
-      <li class="preview-item">
-        <span class="field-name">聯絡地址</span>
-        <span>
-          {{ `${props.submitForm?.county}${props.submitForm?.city}${props.submitForm?.address}` }}
-        </span>
-      </li>
-    </ul>
-  </section>
-  <section>
-    <div class="bg-grey-50 p-4 flex">
-      <img src="@/assets/images/person-icon.svg" />
-      <span class="ml-2 font-bold">申辦服務資料</span>
-    </div>
-    <ul class="px-4 py-2 flex flex-col gap-y-4">
-      <li
-        v-for="item in formFormat?.data?.form_format ?? []"
-        :key="item.field"
-        class="preview-item"
-        :class="{ 'preview-item--attachment': item.field === 'attachments' }"
-      >
-        <!-- 附件先移除 -->
-        <!-- <template v-if="item.field === 'attachments'">
-          <span class="field-name">附件</span>
-          <div class="flex flex-wrap gap-4 mt-2">
-            <div v-for="item in fileList" :key="item.name">
-              <img
-                v-if="item?.type.includes('image')"
-                :src="createImgPreviewUrl(item)"
-                class="w-24 h-24 object-cover"
-              />
-              <div v-else class="w-24 h-24 bg-gray-100 flex justify-center items-center px-2">
-                <p class="text-sm">{{ item?.name }}</p>
-              </div>
-            </div>
-          </div>
-        </template> -->
-        <span class="field-name">{{ item.label }}</span>
-        <span>{{ applyFieldTextHandle(item.field) }}</span>
-      </li>
-    </ul>
-  </section>
-  <section class="px-4 mt-4">
-    <p class="text-primary-500 font-bold">個人資料是否提供給承辦員</p>
-    <p class="text-sm">承辦員如有執行法定職務之需求，可透過申請程序，取得您的個人資料。</p>
-    <div class="flex flex-wrap gap-4 mt-2">
-      <BaseRadio
-        v-model="isAgree"
-        v-for="option in agreeOptions"
-        :key="option.value"
-        :radioId="option.value"
-        radioName="isAgree"
-        :radioText="option.label"
-      />
-    </div>
-  </section>
-  <div class="grid grid-cols-2 gap-x-2 px-4 mt-4">
-    <BaseButton outline @click="emit('onModify')">修改</BaseButton>
-    <BaseButton :disabled="isAgree === 'N'" @click="onSubmitClick">送出</BaseButton>
   </div>
-  <BaseDialog
-    v-model="isFinishDialogOpen"
-    title="案件已完成申辦"
-    content="後續處理相關訊息可至案件查詢"
-    positiveText="前往查看"
-    negativeText="確認"
-    @onPositiveClick="onPositiveClick"
-    @onNegativeClick="onNegativeClick"
-  />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import { useFormStore } from '@/stores/form';
-import { useUserStore } from '@/stores/user';
-import BaseRadio from '@/components/atoms/BaseRadio.vue';
-import BaseButton from '@/components/atoms/BaseButton.vue';
-import BaseDialog from '@/components/atoms/BaseDialog.vue';
+import BaseCard from '@/components/atoms/BaseCard.vue';
+import DatePicker from '../molecules/DatePicker.vue';
+import BaseInput from '@/components/atoms/BaseInput.vue';
+import { onMounted, reactive } from 'vue';
+import BaseButton from '../atoms/BaseButton.vue';
+import { insertDocument, getAllDocuments } from '@/api/pregnancy';
+import BaseLoader from '@/components/atoms/BaseLoader.vue';
+import { ref } from 'vue';
 
-const props = defineProps<{
-  submitForm: any;
-}>();
+const isLoading = ref(true);
 
-const emit = defineEmits(['onModify']);
+onMounted(async () => {
+  try {
+    const data = await getAllDocuments('pregnancy-health-daily');
+    console.log("Fetched data:", data);
 
-const store = useFormStore();
-
-const { formFormat } = storeToRefs(store);
-
-const userStore = useUserStore();
-
-const { user } = storeToRefs(userStore);
-
-const router = useRouter();
-
-const formFormatMap = computed(
-  () => new Map(formFormat.value.data.form_format.map((item: { field: any }) => [item.field, item]))
-);
-
-const applyFieldTextHandle = (field: string) => {
-  const item: any = formFormatMap.value.get(field);
-
-  if (item.type === 'input' || item.type === 'select' || item.type === 'textarea') {
-    return props.submitForm[field];
-  } else if (item.type === 'multiple_select' || item.type === 'checkbox_group') {
-    const map = new Map(
-      item.options.map((el: { value: string | number; label: string }) => [el.value, el.label])
-    );
-
-    return props.submitForm[field].map((val: string | number) => map.get(val)).join();
-  } else if (item.type === 'radio_group') {
-    const map = new Map(
-      item.options.map((el: { value: string | number; label: string }) => [el.value, el.label])
-    );
-
-    return map.get(props.submitForm[field]);
-  } else if (item.type === 'date_picker') {
-    return props.submitForm[field]
-      .toLocaleDateString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-      .replace(/\//g, '-');
-  } else {
-    return '';
+    if (Array.isArray(data) && data.length > 0) {
+      const today = new Date();
+      const fetchedDate = new Date(data[0].date.seconds * 1000);
+      const dayDifference = today.getDay() - fetchedDate.getDay();
+      console.log("Day difference:", dayDifference);
+      console.log("Today:", today);
+      console.log("Fetched date:", fetchedDate);
+      store.form.week.data = data[0].week + dayDifference;
+      store.form.week.disabled = true;
+    }
+  } catch (error) {
+    console.error("Error fetching documents:", error);
   }
-};
+  isLoading.value = false;
+});
 
-// const createImgPreviewUrl = (img: File) => {
-//   return URL.createObjectURL(img);
-// };
-
-const isAgree = ref('Y');
-
-const agreeOptions = ref([
-  { label: '同意', value: 'Y' },
-  { label: '不同意', value: 'N' }
-]);
-
-const onSubmitClick = async () => {
-  console.log('submitForm:', props.submitForm);
-
-  /**
-   * 註解區塊是串接提交表單 API 的範例
-   * 透過 JS 原生 fetch 做串接
-   * 開發者可以用自己習慣的方式去做 API 串接
-   * 例如：axios 等
-   */
-
-  // try {
-  //   const response = await fetch(formFormat.value.data.submit_target.url, {
-  //     method: formFormat.value.data.submit_target.method,
-  //     headers: {
-  //       'Content-Type': formFormat.value.data.submit_target.content_type
-  //     },
-  //     body: JSON.stringify(props.submitForm)
-  //   });
-
-  //   if (!response.ok) {
-  //     throw new Error(`request error: ${response.status}!!`);
-  //   }
-
-  //   const responseData = await response.json();
-  //   console.log('success upload:', responseData);
-  //   isFinishDialogOpen.value = true;
-  // } catch (error) {
-  //   console.log('error:', error);
-  // }
-
-  isFinishDialogOpen.value = true;
-};
-
-const isFinishDialogOpen = ref(false);
-
-const onPositiveClick = () => {
-  router.push({ name: 'home', query: { isSearch: 'true' } });
-};
-
-const onNegativeClick = () => {
-  router.push({ name: 'home' });
-};
+const store = reactive({
+  form: {
+    date: {
+      label: '日期',
+      data: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
+      required: true
+    },
+    week: {
+      label: '週次',
+      data: '',
+      required: true,
+      disabled: false
+    },
+    weight: {
+      label: '體重',
+      data: '',
+      required: true
+    },
+    blood: {
+      label: '血壓',
+      data: '',
+      required: true
+    },
+    urineSugar: {
+      label: '尿糖',
+      data: '',
+      required: true
+    },
+    urineProtein: {
+      label: '尿蛋白',
+      data: '',
+      required: true
+    },
+  }
+});
 </script>
 
 <style lang="postcss">
-.field-name {
-  @apply text-gray-500;
+div {
+  margin-bottom: 10px;
 }
 
-.preview-item {
-  @apply flex justify-between;
+span {
+  margin-right: 5px;
+}
 
-  &--attachment {
-    @apply flex-col justify-start;
-  }
+input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>
