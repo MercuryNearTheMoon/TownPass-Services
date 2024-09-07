@@ -11,8 +11,10 @@
           <p class="text-sm font-bold mt-1">健康數據</p>
         </div>
         <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_dashboard_reports.svg" alt="Icon 2" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">孕期建議</p>
+          <RouterLink to="/qna">
+            <img src="/images/tp_icon_dashboard_reports.svg" alt="Icon 2" class="w-10 h-10 mx-auto" />
+            <p class="text-sm font-bold mt-1">孕期建議</p>
+          </RouterLink>
         </div>
         <div class="w-full h-auto flex-1 text-center m-0">
           <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
