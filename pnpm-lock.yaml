@@ -44,6 +44,9 @@ importers:
       vue-router:
         specifier: 4.3.0
         version: 4.3.0(vue@3.4.21(typescript@5.4.5))
+      vue3-apexcharts:
+        specifier: ^1.6.0
+        version: 1.6.0(apexcharts@3.53.0)(vue@3.4.21(typescript@5.4.5))
     devDependencies:
       '@rushstack/eslint-patch':
         specifier: 1.8.0
@@ -1602,6 +1605,12 @@ packages:
     peerDependencies:
       typescript: '*'
 
+  vue3-apexcharts@1.6.0:
+    resolution: {integrity: sha512-gemKFXpw4TuVcllwyKJGYjTwiJQxxCUwbXsiiEEZjs0zc9jvOHvreN8frXz7QbnYqMqOHF9D1TBqwENvoPNjLw==}
+    peerDependencies:
+      apexcharts: '> 3.0.0'
+      vue: '> 3.0.0'
+
   vue@3.4.21:
     resolution: {integrity: sha512-5hjyV/jLEIKD/jYl4cavMcnzKwjMKohureP8ejn3hhEjwhWIhWeuzL2kJAjzl/WyVsgPY56Sy4Z40C3lVshxXA==}
     peerDependencies:
@@ -3081,6 +3090,11 @@ snapshots:
       '@vue/language-core': 2.0.11(typescript@5.4.5)
       semver: 7.6.2
       typescript: 5.4.5
+
+  vue3-apexcharts@1.6.0(apexcharts@3.53.0)(vue@3.4.21(typescript@5.4.5)):
+    dependencies:
+      apexcharts: 3.53.0
+      vue: 3.4.21(typescript@5.4.5)
 
   vue@3.4.21(typescript@5.4.5):
     dependencies:
