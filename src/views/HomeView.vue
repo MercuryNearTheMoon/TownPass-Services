@@ -1,4 +1,5 @@
 <template>
+    <v-app>
   <main>
     <!-- <MilestoneComponent /> -->
     <div class="py-4 bg-primary-50 min-h-screen">
@@ -28,21 +29,31 @@
           </RouterLink>
         </div>
       </div>
+      <div class="m-4 font-blod">相關新聞</div>
       <BaseCard>
         <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
-          <RouterLink :to="{ path: '/news', query: { title: data.title, content: data.content, url: data.url, date: data.date } }">
-            <div class="flex flex-col" @click="onMapOpenClick(data)">
-              <p class="news-title-container">
-                <span class="news-from">{{ data.from }}</span>
-                <span class="news-data">{{ data.date }}</span>
-              </p>
-              <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
-            </div>
-          </RouterLink>
+          <div class="flex flex-col" @click="onMapOpenClick(data)">
+            <p class="news-title-container">
+              <span class="news-from">{{ data.from }}</span>
+              <span class="news-data">{{ data.date }}</span>
+            </p>
+            <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
+          </div>
         </div>
       </BaseCard>
     </div>
+      <v-bottom-sheet  v-model="isDialogOpen">
+        <v-card max-height="500px" style="border-radius: 16px 16px 0px 0px ;margin-bottom: 0;padding-top: 20px;">
+          <v-card-title class="news-title">{{ selectedNews?.title }}</v-card-title>
+          <v-card-text>
+            <div class="news-content">{{ selectedNews?.content }}</div>
+            <div class="news-url text-primary-500">{{ selectedNews?.url }}</div>
+            <div class="news-date text-grey-400">{{ selectedNews?.date }}</div>
+          </v-card-text>
+        </v-card>
+      </v-bottom-sheet>
   </main>
+    </v-app>
 </template>
 
 <script setup lang="ts">
@@ -58,15 +69,18 @@ import caseProgressJson from '../../public/mock/case_progress.json';
 import type { User } from '@/stores/user';
 import newsData from '@/utils/newsData.json';
 import BaseCard from '@/components/atoms/BaseCard.vue';
-import BaseDialog from '@/components/atoms/BaseDialog.vue';
-import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
 
-const isMapDialogOpen = ref(false);
-const dialogData = ref<{ title: string; content: string }>({ title: '', content: '' });
-const onMapOpenClick = (data: { title: string; content: string }) => {
-  dialogData.value = data;
-  isMapDialogOpen.value = true;
-  console.log('open');
+const isDialogOpen = ref(false);
+const selectedNews = ref({ title: '', content: '', date: '', url: '' });
+
+const onMapOpenClick = (newsItem: {
+  title: string;
+  content: string;
+  date: string;
+  url: string;
+}) => {
+  selectedNews.value = newsItem;
+  isDialogOpen.value = !isDialogOpen.value;
 };
 
 const store = useFormStore();
@@ -252,5 +266,33 @@ html {
 
 .news-from {
   color: #212121 !important;
+}
+::v-deep .news-container {
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 15px;
+}
+
+::v-deep .news-title-container {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(146, 146, 146);
+  margin-bottom: 5px;
+}
+.news-title{
+  font-size: 20px;
+  font-weight: bold;
+}
+.news-content{
+  font-size: 16px;
+  margin-top: 10px;
+}
+.news-url{
+  font-size: 14px;
+  margin-top: 10px;
+}
+.news-date{
+  font-size: 14px;
+  margin-top: 10px;
 }
 </style>
