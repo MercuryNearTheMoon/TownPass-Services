@@ -1,32 +1,3 @@
-<template>
-  <main>
-    <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="w-full h-40 bg-white">image</div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
-        <!-- Content inside the container -->
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">健康數據</p>
-        </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/qna">
-            <img src="/images/tp_icon_dashboard_reports.svg" alt="Icon 2" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">孕期建議</p>
-          </RouterLink>
-        </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">里程碑</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4">
-        <!-- Content inside the container -->
-        布告欄
-      </div>
-    </div>
-  </main>
-</template>
-
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -40,11 +11,8 @@ import BaseInput from '@/components/atoms/BaseInput.vue';
 import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
-import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
-import DailyForm from '@/components/organisms/DailyForm.vue';
-import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
-import ServiceStepVertical from '@/components/molecules/ServiceStepVertical.vue';
+import PregnancyHealthForm from '@/components/organisms/PregnancyHealthForm.vue';
 
 const store = useFormStore();
 
@@ -172,11 +140,24 @@ const activeRecord = computed(() =>
  */
 </script>
 
-<style lang="postcss">
-html {
-  @apply h-full;
-}
+<template>
+  <main>
+    <ServiceTabsView v-model="activeTab">
+      <template #tab0>
+        <div class="py-4 mb-0 bg-primary-50">
+            <PregnancyHealthForm></PregnancyHealthForm>
+        </div>
+      </template>
+      <template #tab1>
+        <div class="p-4">
+          form gose here
+        </div>
+      </template>
+    </ServiceTabsView>
+  </main>
+</template>
 
+<style lang="postcss">
 .search-button {
   @apply bg-primary-500 p-1 rounded-lg;
   @apply h-11 w-11;

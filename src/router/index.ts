@@ -71,6 +71,11 @@ const router = createRouter({
           path: 'coupon-detail/:id',
           name: 'coupon-detail',
           component: CouponDetail
+        },
+        {
+          path: '/pregnancy-form',
+          name: 'pregnancy-form',
+          component: PregnancyForm
         }
       ]
     }

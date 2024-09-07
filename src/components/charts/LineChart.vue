@@ -8,7 +8,12 @@ const props = defineProps<{
 }>();
 
 // 硬编码的假数据
-const data1 = [
+interface DataPoint {
+  x: number; // 时间戳
+  y: number; // 值
+}
+
+const data1: DataPoint[] = [
   { x: new Date('2023-01-01').getTime(), y: 45 },
   { x: new Date('2023-01-02').getTime(), y: 60 },
   { x: new Date('2023-01-03').getTime(), y: 35 },
@@ -64,13 +69,14 @@ const data3 = [
 const chartData = computed(() => {
   switch (props.chartSelect) {
     case 'chart1':
-      return data1;
+      console.log(interpolateData(data1))
+      return interpolateData(data1);
     case 'chart2':
-      return data2;
+      return interpolateData(data2);
     case 'chart3':
-      return data3;
+      return interpolateData(data3);
     default:
-      return data1; // 默认情况
+      return interpolateData(data1); // 默认情况
   }
 });
 
@@ -105,7 +111,7 @@ const chartOptions = {
     borderColor: '#e0e0e0', // 网格线颜色
     strokeDashArray: 5, // 网格线样式
     column: {
-      colors: ['#f8f8f8', 'transparent'],
+      colors: ['#121212', 'transparent'],
       opacity: 0.5
     },
     xaxis: {
@@ -134,17 +140,17 @@ const chartOptions = {
     }
   },
   xaxis: {
-    type: 'datetime',
+    type: 'category',
     labels: {
       formatter: function (val: number) {
         const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
         const currentDataX = val; // 当前 x 值
         if (firstDataX === currentDataX) return ``;
         const weeksDifference = Math.floor((currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)); // 计算周数
-        return `第 ${weeksDifference} 周`; // 返回格式化的周数
+        return `第 ${weeksDifference+2} 周`; // 返回格式化的周数
       }
     },
-    tickAmount: 6 // 这里设置每8个点显示一个x轴标签，可以根据数据量进行调整
+    tickAmount: 7 // 这里设置每8个点显示一个x轴标签，可以根据数据量进行调整,
   },
   tooltip: {
     shared: false,
