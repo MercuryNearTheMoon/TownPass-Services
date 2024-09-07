@@ -33,7 +33,7 @@ export async function insertDailyDocument(
   weight: number,
   bloodPressure: number,
   urineSugar: number,
-  urineProtein: number,
+  urineProtein: number
 ): Promise<string> {
   try {
     // Add a new document with the data
@@ -53,7 +53,6 @@ export async function insertDailyDocument(
     throw error;
   }
 }
-
 
 export async function insertDocument(
   collectionName: string,
