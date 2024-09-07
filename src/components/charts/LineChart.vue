@@ -69,7 +69,7 @@ const data3 = [
 const chartData = computed(() => {
   switch (props.chartSelect) {
     case 'chart1':
-      console.log(interpolateData(data1))
+      console.log(interpolateData(data1));
       return interpolateData(data1);
     case 'chart2':
       return interpolateData(data2);
@@ -147,7 +147,7 @@ const chartOptions = {
         const currentDataX = val; // 当前 x 值
         if (firstDataX === currentDataX) return ``;
         const weeksDifference = Math.floor((currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)); // 计算周数
-        return `第 ${weeksDifference+2} 周`; // 返回格式化的周数
+        return `第 ${weeksDifference + 2} 周`; // 返回格式化的周数
       }
     },
     tickAmount: 7 // 这里设置每8个点显示一个x轴标签，可以根据数据量进行调整,

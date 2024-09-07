@@ -145,13 +145,11 @@ const activeRecord = computed(() =>
     <ServiceTabsView v-model="activeTab">
       <template #tab0>
         <div class="py-4 mb-0 bg-primary-50">
-            <PregnancyHealthForm></PregnancyHealthForm>
+          <PregnancyHealthForm></PregnancyHealthForm>
         </div>
       </template>
       <template #tab1>
-        <div class="p-4">
-          form gose here
-        </div>
+        <div class="p-4">form gose here</div>
       </template>
     </ServiceTabsView>
   </main>

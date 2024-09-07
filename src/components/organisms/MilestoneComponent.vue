@@ -80,6 +80,7 @@ onMounted(async () => {
   background-color: #fcfcfc;
   border: 28px solid #fcfcfc;
   border-radius: 0px;
+  margin-bottom: 0;
 }
 .step--active {
   background-color: #edf8fa;
@@ -93,6 +94,7 @@ onMounted(async () => {
   width: 100%;
   color: #212121;
   align-items: start;
+  margin-bottom: 0;
 }
 .step-title {
   font-size: 16px;
