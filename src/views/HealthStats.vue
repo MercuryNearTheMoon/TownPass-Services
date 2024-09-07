@@ -1,4 +1,5 @@
 <template>
+  <v-app>
   <main>
     <div class="py-4 bg-primary-50 min-h-screen flex flex-col">
       <div class="bg-white rounded-xl shadow-lg mx-4 ">
@@ -13,7 +14,12 @@
         </div>
       </div>
 
-      <div class="font-bold px-4 mt-6">歷史資料</div>
+      <div class="font-bold px-4 mt-6 items-center">
+        <span class="items-center">歷史資料</span>
+        <button class="text-primary-500 items-center " @click="isOpened = true">
+          <img src="@/assets/images/info.svg" alt="Icon" class="w-5 h-5 mx-auto text-primary-500" />
+        </button>
+      </div>
 
       <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 p-4">
         <!-- 放入歷史資料內容 -->
@@ -27,7 +33,24 @@
       </RouterLink>
     </div>
 
+    <v-bottom-sheet v-model="isOpened">
+      <v-card
+        max-height="500px"
+        style="border-radius: 16px 16px 0px 0px; margin-bottom: 0; padding-top: 20px"
+      >
+        <v-card-text>
+          <div class="flex justify-center border-b-2 border-black mb-10">
+            <div class="font-blod text-[20px]">健康數據參考值</div>
+          </div>
+          <img src="@/assets/images/normalRangeChart.svg" alt="Icon" class="mx-auto mb-6" @click="isOpened = false" />
+          <div v-for="(line, index) in kownledge" :key="index" class="m-0">
+            {{ line }}
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
   </main>
+</v-app>
 </template>
 
 <script setup lang="ts">
@@ -51,9 +74,21 @@ import LineChart from '@/components/charts/LineChart.vue';
 
 const store = useFormStore();
 
+const isOpened = ref(false);
+
 store.reset();
 
 const userStore = useUserStore();
+
+const kownledge = ref([
+  '血壓收縮壓/舒張壓：',
+'80～140mmHg／50～90mmHg',
+'尿糖含葡萄糖量：',
+'<180mg/dL',
+'每日尿蛋白總量：',
+'30mg/dL-120mg/dL',
+'不會超過150mg/dL'
+]);
 
 const { user } = storeToRefs(userStore);
 
