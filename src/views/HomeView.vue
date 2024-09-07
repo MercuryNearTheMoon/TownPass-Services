@@ -2,7 +2,7 @@
   <v-app>
     <main>
       <!-- <MilestoneComponent /> -->
-      <div class="py-4 bg-primary-50 min-h-screen">
+      <div class="py-4 bg-primary-50 min-h-screen mb-0">
         <div class="w-full bg-white">
           <img
             src="/images/image.png"
