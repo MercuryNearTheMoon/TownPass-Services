@@ -1,9 +1,7 @@
 <template>
   <main>
     <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="w-full h-40 bg-white">
-        image
-      </div>
+      <div class="w-full h-40 bg-white">image</div>
       <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
         <!-- Content inside the container -->
         <div class="w-full h-auto flex-1 text-center m-0">
@@ -43,6 +41,8 @@ import caseProgressJson from '../../public/mock/case_progress.json';
 import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
 import DailyForm from '@/components/organisms/DailyForm.vue';
+import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
+import ServiceStepVertical from '@/components/molecules/ServiceStepVertical.vue';
 
 const store = useFormStore();
 

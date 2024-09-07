@@ -24,6 +24,8 @@ interface HealthRecord {
   week: number;
   weight: number;
   bloodPressure: number;
+  urineSugar?: number;
+  urineProtein?: number;
 }
 
 export async function insertDailyDocument(

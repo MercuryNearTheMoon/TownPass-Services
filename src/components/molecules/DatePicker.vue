@@ -38,8 +38,13 @@ const masks = ref({
 <template>
   <DatePicker v-model="date" :masks="masks">
     <template #default="{ togglePopover, inputValue }">
-      <BaseInput :value="inputValue" readonly isDatepicker @click="togglePopover"
-        :class="{ 'base-input--warn': props.required && !isValidate }" />
+      <BaseInput
+        :value="inputValue"
+        readonly
+        isDatepicker
+        @click="togglePopover"
+        :class="{ 'base-input--warn': props.required && !isValidate }"
+      />
     </template>
   </DatePicker>
 </template>

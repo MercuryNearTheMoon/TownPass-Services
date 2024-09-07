@@ -23,7 +23,7 @@ const data1 = [
   { x: new Date('2023-02-09').getTime(), y: 100 },
   { x: new Date('2023-02-14').getTime(), y: 85 },
   { x: new Date('2023-02-16').getTime(), y: 110 },
-  { x: new Date('2023-02-21').getTime(), y: 120 },
+  { x: new Date('2023-02-21').getTime(), y: 120 }
 ];
 
 const data2 = [
@@ -40,7 +40,7 @@ const data2 = [
   { x: new Date('2023-02-10').getTime(), y: 60 },
   { x: new Date('2023-02-13').getTime(), y: 80 },
   { x: new Date('2023-02-15').getTime(), y: 45 },
-  { x: new Date('2023-02-19').getTime(), y: 90 },
+  { x: new Date('2023-02-19').getTime(), y: 90 }
 ];
 
 const data3 = [
@@ -57,10 +57,8 @@ const data3 = [
   { x: new Date('2023-02-05').getTime(), y: 135 },
   { x: new Date('2023-02-11').getTime(), y: 145 },
   { x: new Date('2023-02-14').getTime(), y: 150 },
-  { x: new Date('2023-02-18').getTime(), y: 155 },
+  { x: new Date('2023-02-18').getTime(), y: 155 }
 ];
-
-
 
 // 计算属性来动态获取数据
 const chartData = computed(() => {
@@ -110,31 +108,30 @@ const chartOptions = {
       colors: ['#f8f8f8', 'transparent'],
       opacity: 0.5
     },
-    xaxis:{
-      lines:{
-        show:true
+    xaxis: {
+      lines: {
+        show: true
       }
     },
-    yaxis:{
-      lines:{
-        show:false
+    yaxis: {
+      lines: {
+        show: false
       }
     },
     row: {
       colors: ['#e5e5e5', 'transparent'],
       opacity: 0.5
-    }, 
-    
+    }
   },
   yaxis: {
     labels: {
       formatter: function (val: number) {
         return val.toFixed(0); // 格式化 y 轴值
-      },
+      }
     },
     title: {
       text: 'Value'
-    },
+    }
   },
   xaxis: {
     type: 'datetime',
@@ -142,7 +139,7 @@ const chartOptions = {
       formatter: function (val: number) {
         const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
         const currentDataX = val; // 当前 x 值
-        if(firstDataX === currentDataX) return ``
+        if (firstDataX === currentDataX) return ``;
         const weeksDifference = Math.floor((currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)); // 计算周数
         return `第 ${weeksDifference} 周`; // 返回格式化的周数
       }
