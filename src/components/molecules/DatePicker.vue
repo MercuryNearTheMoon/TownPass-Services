@@ -9,7 +9,7 @@ const props = defineProps<{
   triggerValidate?: boolean;
 }>();
 
-const date = defineModel({ type: Date });
+const date = ref<Date | null>(null);
 
 const isValidate = ref(true);
 
@@ -30,7 +30,6 @@ watch(
     isValidate.value = true;
   }
 );
-
 const masks = ref({
   input: 'YYYY-MM-DD'
 });
@@ -39,12 +38,14 @@ const masks = ref({
 <template>
   <DatePicker v-model="date" :masks="masks">
     <template #default="{ togglePopover, inputValue }">
-      <BaseInput
-        v-bind:model-value="inputValue"
-        readonly
-        @click="togglePopover"
-        :class="{ 'base-input--warn': required && !isValidate }"
-      />
+      <BaseInput :value="inputValue" readonly isDatepicker @click="togglePopover"
+        :class="{ 'base-input--warn': props.required && !isValidate }" />
     </template>
   </DatePicker>
 </template>
+
+<style>
+.base-input--warn {
+  border-color: red;
+}
+</style>

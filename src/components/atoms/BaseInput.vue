@@ -24,14 +24,8 @@ watch(
 </script>
 
 <template>
-  <input
-    type="text"
-    v-model="inputValue"
-    v-bind="$attrs"
-    class="base-input"
-    :class="{ 'base-input--warn': required && !isValidate }"
-    @input="validate"
-  />
+  <input type="text" v-model="inputValue" v-bind="$attrs" class="base-input"
+    :class="{ 'base-input--warn': required && !isValidate }" @input="validate" />
   <p v-if="required && !isValidate" class="mt-2 text-right text-warn-200 text-sm">
     {{ props.label }}不能為空
   </p>

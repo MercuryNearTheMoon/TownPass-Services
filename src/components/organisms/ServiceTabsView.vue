@@ -6,11 +6,11 @@ const props = withDefaults(defineProps<TabsProps>(), {
   tabList: () => [
     {
       id: 1,
-      title: '申辦'
+      title: '日常表單'
     },
     {
       id: 2,
-      title: '查詢'
+      title: '產檢表單'
     }
   ],
   contentType: false
@@ -22,12 +22,8 @@ const activeTab = defineModel({ default: 0 });
 <template>
   <ServiceTabs v-model="activeTab" :tab-list="props.tabList" :contentType="props.contentType" />
   <section class="tab-view-container">
-    <div
-      v-for="(item, index) in props.tabList"
-      :key="item.id"
-      class="tab-view"
-      :style="{ transform: `translate(calc(-100%*${activeTab}))` }"
-    >
+    <div v-for="(item, index) in props.tabList" :key="item.id" class="tab-view h-full"
+      :style="{ transform: `translate(calc(-100%*${activeTab}))` }">
       <slot :name="`tab${index}`"> tab {{ item.title }} </slot>
     </div>
   </section>

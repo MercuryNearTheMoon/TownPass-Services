@@ -11,11 +11,11 @@ const props = withDefaults(defineProps<TabsProps>(), {
   tabList: () => [
     {
       id: 1,
-      title: '申辦'
+      title: '日常表單'
     },
     {
       id: 2,
-      title: '查詢'
+      title: '產檢表單'
     }
   ],
   contentType: false
@@ -27,7 +27,7 @@ const activeTab = defineModel({ default: 0 });
 <template>
   <section
     class="tabs"
-    :class="{ '!grid-cols-3': tabList.length % 3 === 0, 'tabs__content-type': props.contentType }"
+    :class="{ '!grid-cols-3': tabList.length % 4 === 0, 'tabs__content-type': props.contentType }"
   >
     <button
       v-for="(item, index) in props.tabList"
