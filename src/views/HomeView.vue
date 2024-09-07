@@ -273,15 +273,26 @@ html {
   color: rgb(146, 146, 146);
   margin-bottom: 5px;
 }
-
 .news-content-container {
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
   max-height: 20px;
   font-weight: bold;
+  position: relative;
 }
+
+.news-content-container::after {
+  content: '';
+  width: 80px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.864), rgba(255, 255, 255, 0.196));
+  pointer-events: none;
+}
+
 
 .news-from {
   color: #212121 !important;
