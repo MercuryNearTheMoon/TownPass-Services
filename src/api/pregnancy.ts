@@ -22,7 +22,19 @@ const db = getFirestore(app);
 const collectionName = 'pregnancy-health';
 const colRef = collection(db, collectionName);
 
-export async function insertDocument(date, week, weight, bloodPressure) {
+interface HealthRecord {
+  date: Date;
+  week: number;
+  weight: number;
+  bloodPressure: number;
+}
+
+export async function insertDocument(
+  date: Date,
+  week: number,
+  weight: number,
+  bloodPressure: number
+): Promise<string> {
   try {
     // Add a new document with the data
     const docRef = await addDoc(colRef, {
