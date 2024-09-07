@@ -1,57 +1,68 @@
 <template>
-    <v-app>
-  <main>
-    <!-- <MilestoneComponent /> -->
-    <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="w-full bg-white">
-        <img src="/images/image.png" alt="Description of Image" class="w-full h-40 object-cover" />
-      </div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
-        <!-- Content inside the container -->
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="health-stats">
-            <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">健康數據</p>
-          </RouterLink>
+  <v-app>
+    <main>
+      <!-- <MilestoneComponent /> -->
+      <div class="py-4 bg-primary-50 min-h-screen">
+        <div class="w-full bg-white">
+          <img
+            src="/images/image.png"
+            alt="Description of Image"
+            class="w-full h-40 object-cover"
+          />
         </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/qna">
-            <img
-              src="/images/tp_icon_dashboard_reports.svg"
-              alt="Icon 2"
-              class="w-10 h-10 mx-auto"
-            />
-            <p class="text-sm font-bold mt-1">孕期建議</p>
-          </RouterLink>
-        </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/milestone">
-            <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">里程碑</p>
-          </RouterLink>
-        </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/surrounding-service">
-            <img src="/images/tp_icon_location_search.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">周遭醫療</p>
-          </RouterLink>
-        </div>
-      </div>
-      <div class="m-4 font-blod">相關新聞</div>
-      <BaseCard>
-        <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
-          <div class="flex flex-col" @click="onMapOpenClick(data)">
-            <p class="news-title-container">
-              <span class="news-from">{{ data.from }}</span>
-              <span class="news-data">{{ data.date }}</span>
-            </p>
-            <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
+        <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
+          <!-- Content inside the container -->
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="health-stats">
+              <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
+              <p class="text-sm font-bold mt-1">健康數據</p>
+            </RouterLink>
+          </div>
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="/qna">
+              <img
+                src="/images/tp_icon_dashboard_reports.svg"
+                alt="Icon 2"
+                class="w-10 h-10 mx-auto"
+              />
+              <p class="text-sm font-bold mt-1">孕期建議</p>
+            </RouterLink>
+          </div>
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="/milestone">
+              <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
+              <p class="text-sm font-bold mt-1">里程碑</p>
+            </RouterLink>
+          </div>
+          <div class="w-full h-auto flex-1 text-center m-0">
+            <RouterLink to="/surrounding-service">
+              <img
+                src="/images/tp_icon_location_search.svg"
+                alt="Icon 3"
+                class="w-10 h-10 mx-auto"
+              />
+              <p class="text-sm font-bold mt-1">周遭醫療</p>
+            </RouterLink>
           </div>
         </div>
-      </BaseCard>
-    </div>
-      <v-bottom-sheet  v-model="isDialogOpen">
-        <v-card max-height="500px" style="border-radius: 16px 16px 0px 0px ;margin-bottom: 0;padding-top: 20px;">
+        <div class="m-4 font-blod">相關新聞</div>
+        <BaseCard>
+          <div class="news-container" v-for="(data, index) in newsData.data" :key="index">
+            <div class="flex flex-col" @click="onMapOpenClick(data)">
+              <p class="news-title-container">
+                <span class="news-from">{{ data.from }}</span>
+                <span class="news-data">{{ data.date }}</span>
+              </p>
+              <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
+            </div>
+          </div>
+        </BaseCard>
+      </div>
+      <v-bottom-sheet v-model="isDialogOpen">
+        <v-card
+          max-height="500px"
+          style="border-radius: 16px 16px 0px 0px; margin-bottom: 0; padding-top: 20px"
+        >
           <v-card-title class="news-title">{{ selectedNews?.title }}</v-card-title>
           <v-card-text>
             <div class="news-content">{{ selectedNews?.content }}</div>
@@ -60,8 +71,8 @@
           </v-card-text>
         </v-card>
       </v-bottom-sheet>
-  </main>
-    </v-app>
+    </main>
+  </v-app>
 </template>
 
 <script setup lang="ts">
@@ -287,19 +298,19 @@ html {
   color: rgb(146, 146, 146);
   margin-bottom: 5px;
 }
-.news-title{
+.news-title {
   font-size: 20px;
   font-weight: bold;
 }
-.news-content{
+.news-content {
   font-size: 16px;
   margin-top: 10px;
 }
-.news-url{
+.news-url {
   font-size: 14px;
   margin-top: 10px;
 }
-.news-date{
+.news-date {
   font-size: 14px;
   margin-top: 10px;
 }

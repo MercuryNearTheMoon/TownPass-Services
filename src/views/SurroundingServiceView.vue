@@ -202,7 +202,7 @@ const getPositionClick = () => {
 };
 
 const successCallback = (position: GeolocationPosition) => {
-  console.log(position.coords.latitude, position.coords.longitude)
+  console.log(position.coords.latitude, position.coords.longitude);
 
   currentLocation.value.lat = position.coords.latitude;
   currentLocation.value.lng = position.coords.longitude;
