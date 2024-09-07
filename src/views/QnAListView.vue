@@ -74,7 +74,7 @@ const onPanelExpandClick = (id: string) => {
             @click="onPanelExpandClick(item.id)"
           >
             <img src="@/assets/images/icon-faq.svg" class="transition-transform mr-2" />
-            <div class="flex-1 text-primary-500">{{ item.name + item.name_en }}</div>
+            <div class="flex-1 text-primary-500">{{ item.name }}</div>
             <img
               src="@/assets/images/down-icon.svg"
               class="transition-transform ml-2"
@@ -91,7 +91,7 @@ const onPanelExpandClick = (id: string) => {
           >
             <div class="overflow-hidden text-grey-700 px-5">
               <p class="whitespace-pre-line" v-html="item.content"></p>
-              <p class="whitespace-pre-line" v-html="item.content_en"></p>
+              <p class="whitespace-pre-line" v-if="item.content_en!=null" v-html="item.content_en"></p>
             </div>
           </div>
         </li>

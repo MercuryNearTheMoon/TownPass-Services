@@ -4,128 +4,88 @@
     {
       "name": "登入註冊",
       "pageSize": 10,
-      "list": [
-        {
-          "id": "q1-1",
-          "is_show_front_page": false,
-          "category": "登入註冊",
-          "name": "一定需要實名認證才能加入台北通會員？",
-          "name_en": "Does signing up for TaipeiPASS membership require real name verification?",
-          "content": "台北通會員分為一般會員與金質會員（實名認證會員），建議您申請金質會員享有完整服務。",
-          "content_en": "\nTaipeiPASS membership is divided into regular and gold members (those whose identity has been verified). Please acquire gold membership for more comprehensive service."
-        },
-        {
-          "id": "q1-2",
-          "is_show_front_page": true,
-          "category": "登入註冊",
-          "name": "已透過悠遊付註冊台北通會員，請問如何登入？",
-          "name_en": "I have signed up for EasyWallet. How do I log in?",
-          "content": "透過悠遊付APP註冊完成的台北通會員將取得一組帳號及密碼，如您忘記當初設定的密碼，請透過「忘記密碼」功能進行密碼變更。",
-          "content_en": "\nIf your registration was successful, you would have received an account and password. If you forgot your pasword, please proceed to \"Forgot Password\" function and change your password accordingly."
-        },
-        {
-          "id": "q1-3",
-          "is_show_front_page": true,
-          "category": "登入註冊",
-          "name": "已透過市民服務大平台或身分驗證申請註冊加入會員，超過時間沒有收到審核通知，怎麼辦？",
-          "name_en": "What should I do if I applied for membership through Citizen Grand Platform or Identity Verification Procedure but have not received the results of evaluation by the expected deadline?",
-          "content": "請透過登入市民服務大平台-線上進度查詢服務進度，或致電客服(1999外縣市02-27208889)轉8585。\n身分證驗證：致電客服(1999外縣市02-27208889)轉8585。",
-          "content_en": "\n\n\nFor those applying for gold membership via Citizen Grand Platform: Please inquire online for the progress of your request, or call customer service via 1999 Citizens' Hotline (dial 02-2720-8889 for those calling outside of Taipei City), ext. 8585.\nIdentity Verification: Please call customer service by dialing 1999 (dial 02-2720-8889 for those calling outside of Taipei City), ext. 8585."
-        },
-        {
-          "id": "q1-4",
-          "is_show_front_page": true,
-          "category": "登入註冊",
-          "name": "手機門號驗證出現身分證字號正確，生日錯誤的錯誤訊息。這是什麼意思?",
-          "name_en": "During mobile phone verification, it says that my ID number is correct but my birth date info is wrong. What does this mean?",
-          "content": "出現此錯誤訊息，多數是您留存於電信公司的生日資料有錯誤或缺漏。請您先致電電信公司客服查詢相關會員資料。若和電信公司比對資料無誤，請您來電1999(外縣市02-27208889)轉8585將有專人為您服務。",
-          "content_en": "\nIn most cases, this error message appears because there's an error with your birth date saved at the Telecom company's database. Please call your telecom provider to doublecheck your membership data. If there is no problem with your data at the telecom provider, please dial 1999 (or 02-2720-8889 when calling from outside of Taipei City), ext. 8585."
-        }
-      ]
-    },
-    {
-      "name": "卡證",
-      "pageSize": 10,
-      "list": [
-        {
-          "id": "q2-1",
-          "is_show_front_page": false,
-          "category": "卡證",
-          "name": "台北通是否有提供申請實體卡片的服務？",
-          "name_en": "Can I apply for a TaipeiPASS physical card?",
-          "content": "台北通為虛擬卡證，目前只有特殊身分核發實體卡證。",
-          "content_en": "\nTaipeiPASS is a virtual membership card which integrates multiple functions. This helps to save you the trouble of carrying around multiple cards in your wallet. Currently, the option of a physical version of the card is reserved for individuals with specific needs."
-        }
-      ]
-    },
-    {
-      "name": "優惠",
-      "pageSize": 10,
-      "list": [
-        {
-          "id": "q3-1",
-          "is_show_front_page": true,
-          "category": "優惠",
-          "name": "如何使用優惠券？",
-          "name_en": "How can I access the coupons?",
-          "content": "在台北通特約商家消費時，出示APP優惠券畫面即可享有專屬優惠。超簡單使用方式，請參考操作步驟。",
-          "content_en": "\nWhen you shop at any of the TaipeiPASS partner stores, simply show the coupon with your app to enjoy the related discount. It is extremely simple to use. Refer to the following instructions."
-        },
-        {
-          "id": "q3-2",
-          "is_show_front_page": true,
-          "category": "優惠",
-          "name": "如何獲得優惠券？ ",
-          "name_en": "How can I obtain the discount coupons?",
-          "content": "下載台北通App，方能使用優惠，點選「優惠」主題，點選「優惠券」即可查看所有優惠商家。看到喜歡的優惠，可以按「+我的票夾」領取優惠或直接點立即使用票券。詳細操作請查看操作步驟。",
-          "content_en": "\nDowload TaipeiPASS app to obtain discounts and bargains. Select \"Perk\" -> \"Coupon\" to check out our partner stores. If you see a bargain you like, simply press \"+ Keep it\" to add it to your inventory or \"Use it\" to use the coupon. For details, please refer to instructions."
-        }
-      ]
-    },
-    {
-      "name": "服務",
-      "pageSize": 10,
-      "list": [
-        {
-          "id": "q4-1",
-          "is_show_front_page": true,
-          "category": "服務",
-          "name": "台北通帳號授權使用市府其他數位平台，可以取消使用授權嗎？",
-          "name_en": "'ve authorized my TaipeiPASS account to access other digital platforms of the city government. Can I cancel the authorization?",
-          "content": "請您登入<a href=\"https://www.taipei-pass.com\" style=\"color: #0000FF;\">台北通官方網站</a>，就可以在會員中心的「安全性」-「授權第三方應用」列表中，選擇取消特定服務的授權。",
-          "content_en": "\nPlease login to the <a href=\"https://www.taipei-pass.com\" style=\"color: #0000FF;\">website of TaipeiPASS</a>. In the Membership Center, select \"Security\" -> \"Authorize Third Party Access\" and cancel the authorization for the specific service from the list."
-        }
-      ]
-    },
-    {
-      "name": "帳單",
-      "pageSize": 10,
-      "list": [
-        {
-          "id": "q5-1",
-          "is_show_front_page": false,
-          "category": "帳單",
-          "name": "剛完成停車費繳納，台北通的帳單紀錄為何沒有顯示紀錄？",
-          "name_en": "I just paid my parking fee, but why isn't the paid bill displayed in the records?",
-          "content": "停車費帳單及繳納資訊非立即更新，請以停管處回覆之即時結果為準。\n如有繳費問題請逕洽停管處客服 02-2726-9600。",
-          "content_en": "\nAs parking fee payment information do not receive realtime updates, all results will be based on the updates by the Parking Administration Office. For any questions on parking fee payments, please call the agency at 02-2726-9600."
-        }
-      ]
-    },
-    {
-      "name": "下載安裝",
-      "pageSize": 10,
-      "list": [
-        {
-          "id": "q6-1",
-          "is_show_front_page": false,
-          "category": "下載安裝",
-          "name": "台北通建議使用環境？使用行動裝置有哪些？",
-          "name_en": "What are the specs and requirment for TaipeiPASS app? What mobile devices can I install it on?",
-          "content": "台北通APP目前提供Android與iOS系統兩個版本，安裝前請先確認智慧型手機之作業系統規格，目前支援 iOS 13.0以上(含)及Android 7.0以上(含)。",
-          "content_en": "\nTaipeiPASS currently offers the Andriod version and iOS version. Please double check the specs of your mobile phone before installing the app. Currently, the app runs on systems including iOS 13.0 (or later versions) and Android 7.0 (or later versions)"
-        }
-      ]
+        "list": [
+          {
+            "id": "q1-1",
+            "is_show_front_page": true,
+            "category": "孕婦健康",
+            "name": "孕婦吸菸、飲酒、嚼檳榔或吸毒會對胎兒和自身造成什麼影響？",
+            "name_en": null,
+            "content": "當孕婦有以上行為，有害物質有可能會透過胎盤影響胎兒，提高流產、早產、死產、胎盤早剝等風險。吸菸會讓胎兒接觸致癌物，導致出生體重過輕、先天缺陷等；飲酒可能造成「胎兒酒精症候群」，影響臉部發育和神經系統；嚼檳榔會減少胎兒營養，使嬰兒體重身長不足，甚至出現成癮症狀；吸毒則可能使新生兒有「戒斷症候群」，提高癲癇、呼吸問題和死亡風險，影響日後的認知行為發展。這些行為不僅危害胎兒,也會增加孕婦本身的妊娠併發症。為了母嬰健康,孕婦應完全遠離菸、酒、檳、毒，有成癮問題也要及早尋求戒治協助。家人朋友則要共同營造無菸環境，給予支持和鼓勵。\n\n來源：衛生福利部國民健康署孕婦衛教手冊(2020.03版)P.16-P.19"
+          },
+          {
+            "id": "q1-2",
+            "is_show_front_page": true,
+            "category": "孕婦健康",
+            "name": "胎兒超音波檢查有哪些優點和限制？結果該如何解讀？",
+            "name_en": null,
+            "content": "超音波是一種非侵入性的產前檢查，可用來評估胎兒生長、胎盤和羊水狀態，也是目前獲得胎兒資訊最多的診斷工具。然而，超音波檢查仍有其限制：\n1. 準確性會受母體脂肪、羊水、胎兒姿勢等因素影響。\n2. 無法完全排除所有胎兒問題，有些疾病要較大週數或出生後才會出現。\n3. 無法取代羊膜穿刺，確診染色體異常。\n4. 微小缺陷、手指異常較難辨識。\n5. 懷孕越後期，檢查效果越差。\n6. 部分先天性心臟病難以產前診斷。\n超音波報告只能判讀該週數下是否有明顯異常，呈正常結果不代表完全沒問題。發現胎兒畸形時，建議諮詢婦產科醫師，並依自身情況安排檢查頻率。但超音波不該用來判定性別而影響生育決定。定期產檢搭配充分溝通，才能為母嬰健康把關。\n\n來源：衛生福利部國民健康署孕婦衛教手冊(2020.03版) P.13"
+          },
+          {
+            "id": "q1-3",
+            "is_show_front_page": true,
+            "category": "孕婦健康",
+            "name": "高齡孕產婦在孕前、孕期和產後需要特別注意哪些事項？",
+            "name_en": null,
+            "content": "高齡孕產婦（≥34歲）由於生理因素，比一般孕婦更容易出現併發症，從孕前到產後都需要特別的照護：\n\n孕前：\n1. 若有遺傳疾病家族史或個人疾病史，建議做孕前健康檢查及優生諮詢，及早發現並治療問題。\n2. 養成均衡飲食，攝取足夠葉酸（每日600微克），維持理想體重，為懷孕做好準備。\n\n孕期：\n1. 定期產檢，高齡孕婦可補助羊膜穿刺費用以篩檢遺傳疾病。\n2. 均衡飲食，孕期體重增加10-14公斤為宜，太瘦或太胖都不好。\n3. 少量多餐，避免刺激性食物緩解孕吐；末期勿攝取過多澱粉脂肪。\n4. 每天運動30分鐘如散步、孕婦瑜珈等，有助順產，降低妊娠併發症。\n\n產後：\n1. 充分休息，不宜過早負重或勞累。\n2. 飲食清淡、營養均衡，多攝取蛋白質補充體力，促進傷口癒合。\n3. 會陰傷口或剖腹產口癒合後才洗澡淋浴，注意清潔避免感染。\n4. 體力恢復後做產後運動，增強肌肉張力與血液循環。\n\n高齡媽媽從孕前開始，透過完善的自我照護、定期產檢，以及專業醫療團隊的協助，就能順利生產健康寶寶，並儘快恢復到孕前的健康狀態。\n\n來源：《婦嬰護理學(二版)》孫吉珍、林宴如、方素瓔等(2014)華杏出版P.244-249"
+          },
+          {
+            "id": "q1-4",
+            "is_show_front_page": true,
+            "category": "育兒",
+            "name": "新手爸爸如何參與育兒並與寶寶建立良好關係？",
+            "name_en": null,
+            "content": "新手爸爸參與育兒並與寶寶建立親密關係的關鍵在於：\n1. 媽媽要適時放手，給爸爸機會學習照顧寶寶。爸爸做的跟媽媽一樣好，只是需要練習。\n2. 餵奶時爸爸多陪伴，給媽媽支持與鼓勵，餵奶前後給媽媽水喝、按摩。爸爸可接手照顧寶寶說話、眼神交流，讓寶寶熟悉爸爸。\n3. 換尿布、洗澡、看病等育兒工作爸媽輪流，彼此換班，增加寶寶與爸爸相處的時間。\n4. 當寶寶哭時，爸爸以不同方式安撫如抱著、唱歌、散步，讓寶寶知道爸爸也能提供安全感。\n5. 幫寶寶洗完澡，爸爸可以進行按摩，舒緩情緒、增加親密感。邊按摩邊說話微笑，讓寶寶有愉悅的感受。\n6. 每天固定時間，爸爸撥出時間與寶寶玩耍、說故事，養成互動習慣，建立期待感。\n7. 晚上睡前由爸爸說故事、陪伴哄睡，幫助建立寶寶規律作息並與雙親互動。\n\n透過這些育兒的努力，爸爸能實踐作為父親的責任，雙親共同承擔育幼工作，更能滿足寶寶成長的需求，給予關愛照顧，為寶寶身心發展奠定良好基礎。父母同心協力，新手爸媽就能慢慢掌握育兒訣竅。\n\n來源：新生醫護管理專科學校幼兒保育科 阮震亞助理教授 撰稿\n“The Baby Book親密育兒百科(上冊)．威廉.西爾斯、瑪莎.西爾斯著．天下遠見出版(2000) P11-P14"
+          },
+          {
+            "id": "q1-5",
+            "is_show_front_page": true,
+            "category": "孕婦健康",
+            "name": "孕期伴侶常見的不適包括哪些?男方可以如何協助舒緩？",
+            "name_en": null,
+            "content": "孕期女性常見的不適及男方可以提供的協助包括：\n\n1. 孕吐、沒胃口：\n- 準備塑膠袋、垃圾桶方便嘔吐\n- 吐完後遞上溫開水漱口,避免食道灼傷\n- 準備蘇打餅乾，幫助緩解不適\n\n2. 乳房不適：\n- 買胸圍或哺乳衣，避免壓迫乳房\n- 買護理墊，舒適且避免溢乳。\n\n3. 腰酸背痛：\n- 給予舒緩的背部按摩，協助血液循環\n- 共同散步，增加活動量。\n\n4. 睡眠不良：\n- 陪伴伴侶進行冥想或呼吸練習，減壓放鬆\n- 一起撿出適合的睡姿，搭配孕婦枕，提升舒適感\n\n5. 情緒波動：\n- 了解她的情緒變化，給予支持和鼓勵\n- 陪伴與她談心，緩解焦慮和壓力\n\n透過伴侶的關心與支持，能有效減輕孕婦的身心不適，營造更好的懷孕環境，讓孕期更加愉快順利。\n\n來源：衛生福利部國民健康署孕婦衛教手冊(2020.03版) P.28-P.31"
+          },
+          {
+            "id": "q1-6",
+            "is_show_front_page": true,
+            "category": "育兒",
+            "name": "如何建立親子共讀的習慣？",
+            "name_en": null,
+            "content": "建立親子共讀的習慣有助於孩子的語言發展和親子關係，以下是幾個方法：\n1. 從小開始：在孩子嬰兒時期就開始讀書，培養他們對書本的興趣。\n2. 定時共讀：每天設立固定的共讀時間，如睡前，讓孩子習慣這一活動。\n3. 選擇合適的書籍：根據孩子的年齡和興趣選擇圖畫書或故事書。\n4. 互動式閱讀：在讀書過程中與孩子互動，問問題，讓他們參與。\n5. 創造舒適的閱讀環境：找一個安靜、舒適的地方閱讀，讓孩子感到放鬆。\n6. 鼓勵孩子表達：鼓勵孩子分享他們對故事的看法，增強理解和思考能力。\n7. 以身作則：父母也要多閱讀，讓孩子看到閱讀的榜樣。\n\n透過這些方法，親子共讀能成為家庭中有趣且有意義的活動，增強親子連結，讓孩子在快樂中學習。\n\n來源：國立公共資訊圖書館「親子共讀讀本」"
+          },
+          {
+            "id": "q1-7",
+            "is_show_front_page": true,
+            "category": "育兒",
+            "name": "如何讓寶寶適應獨立睡覺？",
+            "name_en": null,
+            "content": "讓寶寶適應獨立睡覺的過程可能需要一段時間，以下是一些方法幫助寶寶過渡：\n1. 創建規律的睡眠時間：每天定時讓寶寶上床睡覺，形成穩定的作息。 \n2. 減少刺激：在寶寶睡覺前的1小時，避免過於刺激的活動，如劇烈運動和高音量的音樂。\n3. 創造安靜舒適的環境：保持臥室安靜、黑暗，並保持適宜的溫度。\n4. 進行舒緩的睡前儀式：例如洗澡、閱讀故事書等，幫助寶寶放鬆心情。\n5. 鼓勵自我安撫：當寶寶醒來時，讓他們學會自己安撫自己，等一會再去安慰他們。\n6. 適當使用安撫物：可以讓寶寶帶著小毛巾或安撫玩具入睡，增強安全感。\n\n透過這些方法，寶寶將能慢慢習慣獨立睡覺，這不僅對寶寶有益，也有助於父母的休息與生活品質。\n\n來源：新生醫護管理專科學校幼兒保育科 陳柏妤講師"
+          },
+          {
+            "id": "q1-8",
+            "is_show_front_page": true,
+            "category": "孕婦健康",
+            "name": "產後應該如何進行身體復原？",
+            "name_en": null,
+            "content": "產後身體復原是每位新手媽媽面臨的重要課題，以下是一些建議幫助媽媽恢復：\n1. 充分休息：產後的身體需要時間恢復，儘量多休息，避免過度勞累。\n2. 健康飲食：保持均衡飲食，多攝取蛋白質和維他命，幫助傷口癒合和體力恢復。\n3. 適度運動：根據醫生建議，適時開始輕微運動，如散步或產後瑜珈，促進血液循環。\n4. 心理健康：注意情緒變化，若感到焦慮或抑鬱，及時尋求專業幫助。\n5. 定期產檢：產後定期回診，讓醫生檢查恢復情況，及早發現問題。\n6. 產後護理：根據情況進行必要的產後護理，如會陰傷口清潔和照護。\n\n透過這些方式，產後媽媽能逐步恢復到健康狀態，並享受與寶寶的相處時光。\n\n來源：衛生福利部國民健康署產後護理指導手冊"
+          },
+          {
+            "id": "q1-9",
+            "is_show_front_page": true,
+            "category": "育兒",
+            "name": "如何增強孩子的自信心？",
+            "name_en": null,
+            "content": "增強孩子自信心的方式有很多，以下幾點值得參考：\n1. 鼓勵孩子：多給孩子正向的回饋，讓他們知道自己的努力被看見。\n2. 設立可達成的目標：根據孩子的能力設定小目標，讓他們在達成目標後感受到成就感。\n3. 提供挑戰的機會：讓孩子在安全的環境中嘗試新事物，學會從失敗中成長。\n4. 給予支持：當孩子遇到困難時，適時提供幫助，並鼓勵他們自己解決問題。\n5. 模範行為：父母自己要表現出自信，成為孩子的榜樣。\n6. 尊重孩子的感受：聆聽並尊重孩子的感受，讓他們感到被理解。\n\n透過這些方法，孩子的自信心會逐漸增強，能更勇敢面對生活中的挑戰。\n\n來源：國立教育研究院「親子關係與自信心」"
+          },
+          {
+            "id": "q1-10",
+            "is_show_front_page": true,
+            "category": "育兒",
+            "name": "孩子的情緒管理需要注意什麼？",
+            "name_en": null,
+            "content": "孩子的情緒管理對於其心理健康非常重要，以下是幾個注意事項：\n1. 了解情緒：教孩子認識各種情緒，幫助他們用語言表達感受。\n2. 創造安全的環境：提供安全的空間讓孩子自由表達情緒，無需擔心評價。\n3. 身教勝於言教：父母應該用正確的方式表達自己的情緒，成為孩子的榜樣。\n4. 建立情緒規則：讓孩子了解何時何地適合表達情緒，幫助他們學會控制情緒。\n5. 提供支持：當孩子情緒不佳時，給予關心和支持，幫助他們走出低潮。\n6. 練習放鬆技巧：教孩子簡單的放鬆技巧，如深呼吸，幫助他們應對情緒波動。\n\n通過這些方法，孩子能夠逐漸學會管理情緒，增強心理素質，促進健康成長。\n\n來源：心理學學會「情緒教育手冊」"
+          }
+        ]
     }
   ]
 }
