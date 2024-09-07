@@ -22,17 +22,27 @@ const emit = defineEmits({
 </script>
 
 <template>
-  <RouterLink v-if="props.link && props.routeInfo" :to="props.routeInfo" :disabled="props.disabled"
+  <RouterLink
+    v-if="props.link && props.routeInfo"
+    :to="props.routeInfo"
+    :disabled="props.disabled"
     class="base-button text-center"
-    :class="{ 'base-button--outline': props.outline, 'base-button--disabled': props.disabled }">
+    :class="{ 'base-button--outline': props.outline, 'base-button--disabled': props.disabled }"
+  >
     <slot />
   </RouterLink>
-  <button v-else :disabled="props.disabled" class="base-button" :class="{
-    'base-button--outline': props.outline,
-    'base-button--disabled': props.disabled,
-    'base-button--rounded': props.shape === 'rounded',
-    'base-button--rectangular': props.shape === 'rectangular'
-  }" @click.prevent="() => emit('click')">
+  <button
+    v-else
+    :disabled="props.disabled"
+    class="base-button"
+    :class="{
+      'base-button--outline': props.outline,
+      'base-button--disabled': props.disabled,
+      'base-button--rounded': props.shape === 'rounded',
+      'base-button--rectangular': props.shape === 'rectangular'
+    }"
+    @click.prevent="() => emit('click')"
+  >
     <slot />
   </button>
 </template>

@@ -1,29 +1,22 @@
 <template>
   <main>
     <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="w-full h-40 bg-white">image</div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
-        <!-- Content inside the container -->
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_1999_speak.svg" alt="Icon 1" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">健康數據</p>
-        </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <RouterLink to="/qna">
-            <img src="/images/tp_icon_dashboard_reports.svg" alt="Icon 2" class="w-10 h-10 mx-auto" />
-            <p class="text-sm font-bold mt-1">孕期建議</p>
-          </RouterLink>
-        </div>
-        <div class="w-full h-auto flex-1 text-center m-0">
-          <img src="/images/tp_icon_feedback.svg" alt="Icon 3" class="w-10 h-10 mx-auto" />
-          <p class="text-sm font-bold mt-1">里程碑</p>
+      <div class="bg-white rounded-xl shadow-lg mx-4 h-80">
+        <div class="flex items-center justify-end">
+          <span class="flex w-3 h-3 bg-primary-400 rounded-full"></span>
+          <div class="w-24 mb-0">
+            <BaseSelect :options="health_fields" v-model="selected_field"></BaseSelect>
+          </div>
         </div>
       </div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4">
-        <!-- Content inside the container -->
-        布告欄
-      </div>
+      <div class="font-bold px-4 mt-4 mb-0">歷史資料</div>
+      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4">whatever</div>
     </div>
+    <RouterLink to="/pregnancy-form">
+      <button class="bg-primary-600 rounded-full flex items-center fixed bottom-4 right-4 p-3">
+        <img src="/images/plus.svg" alt="Icon 1" class="w-6 h-6 mx-auto" />
+      </button>
+    </RouterLink>
   </main>
 </template>
 
@@ -43,8 +36,7 @@ import caseProgressJson from '../../public/mock/case_progress.json';
 import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
 import DailyForm from '@/components/organisms/DailyForm.vue';
-import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
-import ServiceStepVertical from '@/components/molecules/ServiceStepVertical.vue';
+import BaseSelect from '@/components/atoms/BaseSelect.vue';
 
 const store = useFormStore();
 
@@ -170,6 +162,12 @@ const activeRecord = computed(() =>
 /**
  * tab1 JS end
  */
+
+const health_fields = [
+  { label: '體重', value: 'weight' },
+  { label: '血壓', value: 'bloodPressure' }
+];
+const selected_field = 'weight';
 </script>
 
 <style lang="postcss">
@@ -202,5 +200,14 @@ html {
   &--active {
     @apply bg-primary-500 text-white;
   }
+}
+
+.base-select {
+  @apply bg-white;
+  @apply font-bold;
+}
+
+.base-select-wrapper {
+  @apply mb-0;
 }
 </style>
