@@ -11,6 +11,7 @@ import BaseInput from '@/components/atoms/BaseInput.vue';
 import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
+import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
 
 const store = useFormStore();
@@ -269,8 +270,15 @@ const activeRecord = computed(() =>
             </ul>
           </section>
         </div>
+        
       </template>
     </ServiceTabsView>
+    <div class="flex justify-center">
+      <BaseButton :outline="true" :link="true" routeInfo="charttest">
+        charttestbutton
+      </BaseButton>
+    </div>
+    
   </main>
 </template>
 
