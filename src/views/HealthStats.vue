@@ -1,22 +1,32 @@
 <template>
   <main>
-    <div class="py-4 bg-primary-50 min-h-screen">
-      <div class="bg-white rounded-xl shadow-lg mx-4 h-80">
-        <div class="flex items-center justify-end">
+    <div class="py-4 bg-primary-50 min-h-screen flex flex-col">
+      <div class="bg-white rounded-xl shadow-lg mx-4 ">
+        <div class="flex items-center justify-end px-4 pt-2 m-0">
           <span class="flex w-3 h-3 bg-primary-400 rounded-full"></span>
           <div class="w-24 mb-0">
-            <BaseSelect :options="health_fields" v-model="selected_field"></BaseSelect>
+            <BaseSelect default-selected="體重" default-value="weight" select-id="health_select" :options="health_fields" v-model="selected_field"></BaseSelect>
           </div>
         </div>
+        <div class="h-auto">
+          <LineChart :chartSelect="selected_field"></LineChart>
+        </div>
       </div>
-      <div class="font-bold px-4 mt-4 mb-0">歷史資料</div>
-      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4">whatever</div>
+
+      <div class="font-bold px-4 mt-6">歷史資料</div>
+
+      <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 p-4">
+        <!-- 放入歷史資料內容 -->
+        whatever
+      </div>
+
+      <RouterLink to="/pregnancy-form">
+        <button class="bg-primary-600 rounded-full flex items-center fixed bottom-4 right-4 p-4 shadow-lg">
+          <img src="/images/plus.svg" alt="Icon" class="w-6 h-6 mx-auto" />
+        </button>
+      </RouterLink>
     </div>
-    <RouterLink to="/pregnancy-form">
-      <button class="bg-primary-600 rounded-full flex items-center fixed bottom-4 right-4 p-3">
-        <img src="/images/plus.svg" alt="Icon 1" class="w-6 h-6 mx-auto" />
-      </button>
-    </RouterLink>
+
   </main>
 </template>
 
@@ -37,6 +47,7 @@ import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
 import DailyForm from '@/components/organisms/DailyForm.vue';
 import BaseSelect from '@/components/atoms/BaseSelect.vue';
+import LineChart from '@/components/charts/LineChart.vue';
 
 const store = useFormStore();
 
@@ -164,10 +175,12 @@ const activeRecord = computed(() =>
  */
 
 const health_fields = [
-  { label: '體重', value: 'weight' },
-  { label: '血壓', value: 'bloodPressure' }
+  { label: '血壓', value: 'bloodPressure' },
+  { label: '尿糖', value: 'urineSugar'},
+  { label: '尿蛋白',value: 'urineProtein'}
 ];
-const selected_field = 'weight';
+const selected_field = ref("weight");
+
 </script>
 
 <style lang="postcss">

@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,8 +20,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-interface HealthRecord {
-  date: Date;
+export interface HealthRecord {
+  date: Timestamp;
   week: number;
   weight: number;
   bloodPressure: number;
@@ -88,12 +89,16 @@ export async function getAllDocuments(collectionName: string): Promise<HealthRec
     // Map through each document and extract the data
     const documents = querySnapshot.docs.map((doc) => ({
       id: doc.id,
-      time: doc.data().date,
-      ...doc.data()
+      date: doc.data().date,
+      week: doc.data().week,
+      weight: doc.data().weight,
+      bloodPressure: doc.data().bloodPressure,
+      urineSugar: doc.data().urineSugar,
+      urineProtein: doc.data().urineProtein,
     }));
     console.log('Documents retrieved: ', documents);
 
-    documents.sort((a, b) => b.time - a.time);
+    documents.sort((a, b) => b.date - a.date);
 
     console.log('Documents sorted: ', documents);
 

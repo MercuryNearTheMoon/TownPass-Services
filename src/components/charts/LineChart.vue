@@ -1,18 +1,17 @@
 <script lang="ts" setup>
 import ApexChart from 'vue3-apexcharts';
-import { watch, ref, defineProps, computed } from 'vue';
+import {ref, onMounted,defineProps, computed } from 'vue';
+import { getAllDocuments }  from '@/api/pregnancy'
 
 // 定义 props
 const props = defineProps<{
   chartSelect?: string;
 }>();
-
 // 硬编码的假数据
 interface DataPoint {
   x: number; // 时间戳
   y: number; // 值
 }
-
 const data1: DataPoint[] = [
   { x: new Date('2023-01-01').getTime(), y: 45 },
   { x: new Date('2023-01-02').getTime(), y: 60 },
@@ -76,64 +75,77 @@ function interpolateData(data: DataPoint[]): DataPoint[] {
 
   return result;
 }
-
-const data2 = [
-  { x: new Date('2023-01-02').getTime(), y: 30 },
-  { x: new Date('2023-01-04').getTime(), y: 25 },
-  { x: new Date('2023-01-08').getTime(), y: 50 },
-  { x: new Date('2023-01-11').getTime(), y: 65 },
-  { x: new Date('2023-01-13').getTime(), y: 45 },
-  { x: new Date('2023-01-18').getTime(), y: 55 },
-  { x: new Date('2023-01-20').getTime(), y: 40 },
-  { x: new Date('2023-01-25').getTime(), y: 70 },
-  { x: new Date('2023-01-28').getTime(), y: 55 },
-  { x: new Date('2023-02-02').getTime(), y: 75 },
-  { x: new Date('2023-02-10').getTime(), y: 60 },
-  { x: new Date('2023-02-13').getTime(), y: 80 },
-  { x: new Date('2023-02-15').getTime(), y: 45 },
-  { x: new Date('2023-02-19').getTime(), y: 90 }
-];
-
-const data3 = [
-  { x: new Date('2023-01-02').getTime(), y: 80 },
-  { x: new Date('2023-01-04').getTime(), y: 100 },
-  { x: new Date('2023-01-07').getTime(), y: 90 },
-  { x: new Date('2023-01-12').getTime(), y: 110 },
-  { x: new Date('2023-01-14').getTime(), y: 95 },
-  { x: new Date('2023-01-19').getTime(), y: 120 },
-  { x: new Date('2023-01-22').getTime(), y: 130 },
-  { x: new Date('2023-01-26').getTime(), y: 115 },
-  { x: new Date('2023-01-29').getTime(), y: 125 },
-  { x: new Date('2023-02-01').getTime(), y: 140 },
-  { x: new Date('2023-02-05').getTime(), y: 135 },
-  { x: new Date('2023-02-11').getTime(), y: 145 },
-  { x: new Date('2023-02-14').getTime(), y: 150 },
-  { x: new Date('2023-02-18').getTime(), y: 155 }
-];
-
+const weightData = ref<DataPoint[]>([]);
+const bloodPressureData =ref<DataPoint[]>([]);
+const urineProteinData =ref<DataPoint[]>([]);
+const urineSugarData =ref<DataPoint[]>([]);
+const getWeightData = async()=>{
+  const data1 = await getAllDocuments('pregnancy-health')
+  const data2 = await getAllDocuments('pregnancy-health-daily')
+  console.log(data1,data2)
+  let temp_data:DataPoint[] = [];
+  for(const i of data1){
+    temp_data.push({x:i['date'].toDate().getTime(),y:i['weight']})
+  }
+  for(const i of data2){
+    temp_data.push({x:i['date'].toDate().getTime(),y:i['weight']})
+  }
+  weightData.value = interpolateData(temp_data)
+}
+const getBloodPressureData = async()=>{
+  const data1 = await getAllDocuments('pregnancy-health')
+  const data2 = await getAllDocuments('pregnancy-health-daily')
+  console.log(data1,data2)
+  let temp_data:DataPoint[] = [];
+  for(const i of data1){
+    temp_data.push({x:i['date'].toDate().getTime(),y:i['bloodPressure']})
+  }
+  for(const i of data2){
+    temp_data.push({x:i['date'].toDate().getTime(),y:i['bloodPressure']})
+  }
+  weightData.value = interpolateData(temp_data)
+}
+const getUrineProteinData = async()=>{
+  const data2 = await getAllDocuments('pregnancy-health-daily')
+  let temp_data:DataPoint[] = [];
+  for(const i of data2){
+    temp_data.push({x:i['date'].toDate().getTime(),y:i['urineProtein']?i['urineProtein']:0})
+  }
+  urineProteinData.value = interpolateData(temp_data)
+}
+const getUrineSugarData = async()=>{
+  const data2 = await getAllDocuments('pregnancy-health-daily')
+  let temp_data:DataPoint[] = [];
+  for(const i of data2){
+    temp_data.push({x:i['date'].toDate().getTime(),y:i['urineSugar']?i['urineSugar']:0})
+  }
+urineSugarData.value = interpolateData(temp_data)
+}
 // 计算属性来动态获取数据
+onMounted(()=>{
+  getBloodPressureData();
+  getUrineSugarData();
+  getUrineProteinData()
+  getWeightData();
+})
 const chartData = computed(() => {
-  let dataToReturn;
-
   switch (props.chartSelect) {
-    case 'chart1':
-      console.log(interpolateData(data1));
-      return interpolateData(data1);
-    case 'chart2':
-      dataToReturn = interpolateData(data2);
-      break;
-    case 'chart3':
-      dataToReturn = interpolateData(data3);
-      break;
+    case 'bloodPressure':
+      return bloodPressureData.value
+    case 'urineSugar':
+      return urineSugarData.value
+    case 'urineProtein':
+      return urineProteinData.value
+    case 'weight':
     default:
-      dataToReturn = interpolateData(data1); // 默认情况
+      return weightData.value
   }
 
-  return dataToReturn;
 });
 const intervalNum = computed(() => {
+  console.log(chartData)
   const totalDays =
-    (chartData.value[chartData.value.length - 1].x - chartData.value[0].x) / (24 * 60 * 60 * 1000);
+    (chartData.value[chartData.value.length - 1]?.x - chartData.value[0]?.x) / (24 * 60 * 60 * 1000);
   return totalDays / 7 - 1;
 });
 // 计算属性来定义 series
@@ -225,7 +237,7 @@ const chartOptions = computed(() => {
 </script>
 
 <template>
-  <div id="chart">
-    <ApexChart type="line" height="350" :options="chartOptions" :series="series"></ApexChart>
+  <div id="chart" class="m-4 mt-2" style="min-height: auto">
+    <ApexChart type="line" height="150" :options="chartOptions" :series="series"></ApexChart>
   </div>
 </template>

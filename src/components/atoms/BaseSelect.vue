@@ -14,6 +14,7 @@ const props = defineProps<{
   selectId: string;
   required?: boolean;
   triggerValidate?: boolean;
+  defaultValue?:string;
 }>();
 
 const isValidate = ref(true);
@@ -43,7 +44,7 @@ watch(inputValue, () => {
       class="base-select"
       :class="{ 'base-select--warn': props.required && !isValidate }"
     >
-      <option v-if="props.defaultSelected" value="" selected>
+      <option v-if="props.defaultSelected" :value="props.defaultValue" selected>
         {{ props.defaultSelected }}
       </option>
       <option v-for="option in props.options" :key="option.value" :value="option.value">
