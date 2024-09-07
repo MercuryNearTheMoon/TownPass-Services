@@ -60,6 +60,7 @@ import BaseInput from '@/components/atoms/BaseInput.vue';
 import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
+import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
 import DailyForm from '@/components/organisms/DailyForm.vue';
 
