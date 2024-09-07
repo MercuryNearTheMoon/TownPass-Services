@@ -9,14 +9,10 @@ import CouponListView from '../views/CouponListView.vue';
 import HotSpotView from '../views/HotSpotView.vue';
 import TicketDetail from '../views/TicketDetail.vue';
 import CouponDetail from '../views/CouponDetail.vue';
-<<<<<<< HEAD
-import ChartTest from '../views/ChartTest.vue';
-import PregnancyForm from '../views/PregnancyForm.vue';
-=======
 import ChartTest from '../views/ChartTest.vue'
 import PregnancyForm from '../views/PregnancyForm.vue';
 import HealthStats from '../views/HealthStats.vue';
->>>>>>> b2904b37c88e274c27ae43994bb0d55b36d2d696
+import MilestoneComponent from '@/components/organisms/MilestoneComponent.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,6 +84,11 @@ const router = createRouter({
           path: '/health-stats',
           name: 'health-stats',
           component: HealthStats
+        },
+        {
+          path: '/milestone',
+          name: 'milestone',
+          component: MilestoneComponent
         }
       ]
     }

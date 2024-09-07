@@ -197,10 +197,11 @@ const chartOptions = computed(()=>{return {
     labels: {
       formatter: function (val: string, timestamp: number){
         const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
-        const currentDataX = val; // 当前 x 值
-        if (firstDataX === currentDataX) return ``;
-        const weeksDifference = Math.floor((currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)); // 计算周数
-        return `第 ${weeksDifference + 2} 周`; // 返回格式化的周数
+        const currentDataX = new Date(val).getTime(); // 当前 x 值
+        /* console.log("val",new Date(val)) */
+        // console.log("timestamp",new Date(timestamp))
+        if (firstDataX === currentDataX) return `第1週`;
+        return `第 ${(currentDataX - firstDataX) / (7 * 24 * 60 * 60 * 1000)+1} 週`; // 返回格式化的周数
       }
     },
     tickAmount : intervalNum.value
