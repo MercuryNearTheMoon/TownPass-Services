@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { ref } from 'vue';
 import qnaListJson from '../../public/mock/qna_list.json';
 
-const currentCategory = ref('登入註冊');
+const currentCategory = ref('育兒');
 const currentCategoryItem = computed(() => {
   return qnaList.value.find((item) => item.name === currentCategory.value);
 });
