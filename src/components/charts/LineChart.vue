@@ -1,34 +1,19 @@
 <script lang="ts" setup>
 import ApexChart from 'vue3-apexcharts';
-import {ref, onMounted,defineProps, computed } from 'vue';
-import { getAllDocuments }  from '@/api/pregnancy'
-
+import { watch, ref, defineProps, computed } from 'vue';
+import type { HealthRecord } from '@/api/pregnancy';
+import { onMounted } from 'vue';
 // 定义 props
 const props = defineProps<{
   chartSelect?: string;
+  nonDialyData: HealthRecord[];
+  dialyData: HealthRecord[];
 }>();
 // 硬编码的假数据
 interface DataPoint {
   x: number; // 时间戳
   y: number; // 值
 }
-const data1: DataPoint[] = [
-  { x: new Date('2023-01-01').getTime(), y: 45 },
-  { x: new Date('2023-01-02').getTime(), y: 60 },
-  { x: new Date('2023-01-03').getTime(), y: 35 },
-  { x: new Date('2023-01-04').getTime(), y: 70 },
-  { x: new Date('2023-01-05').getTime(), y: 55 },
-  { x: new Date('2023-01-06').getTime(), y: 85 },
-  { x: new Date('2023-01-07').getTime(), y: 90 },
-  { x: new Date('2023-01-24').getTime(), y: 75 },
-  { x: new Date('2023-01-26').getTime(), y: 80 },
-  { x: new Date('2023-01-31').getTime(), y: 65 },
-  { x: new Date('2023-02-07').getTime(), y: 95 },
-  { x: new Date('2023-02-09').getTime(), y: 100 },
-  { x: new Date('2023-02-14').getTime(), y: 85 },
-  { x: new Date('2023-02-16').getTime(), y: 110 },
-  { x: new Date('2023-02-21').getTime(), y: 120 }
-];
 
 // 线性插值函数
 function linearInterpolate(x: number, x1: number, y1: number, x2: number, y2: number): number {
@@ -43,8 +28,8 @@ function interpolateData(data: DataPoint[]): DataPoint[] {
   data.sort((a, b) => a.x - b.x);
 
   // 获取时间范围
-  const startDate = new Date(data[0].x);
-  const endDate = new Date(data[data.length - 1].x);
+  const startDate = new Date(data[0]?.x);
+  const endDate = new Date(data[data.length - 1]?.x);
 
   // 遍历每一天并插值
   for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
@@ -75,90 +60,111 @@ function interpolateData(data: DataPoint[]): DataPoint[] {
 
   return result;
 }
-const weightData = ref<DataPoint[]>([]);
-const bloodPressureData =ref<DataPoint[]>([]);
-const urineProteinData =ref<DataPoint[]>([]);
-const urineSugarData =ref<DataPoint[]>([]);
-const getWeightData = async()=>{
-  const data1 = await getAllDocuments('pregnancy-health')
-  const data2 = await getAllDocuments('pregnancy-health-daily')
-  console.log(data1,data2)
-  let temp_data:DataPoint[] = [];
-  for(const i of data1){
-    temp_data.push({x:i['date'].toDate().getTime(),y:i['weight']})
+const chartData = ref<DataPoint[]>([]);
+const getWeightData = async () => {
+  const data1 = props.nonDialyData;
+  const data2 = props.dialyData;
+  let temp_data: DataPoint[] = [];
+  for (const i of data1) {
+    temp_data.push({ x: i['date'].toDate().getTime(), y: i['weight'] });
   }
-  for(const i of data2){
-    temp_data.push({x:i['date'].toDate().getTime(),y:i['weight']})
+  for (const i of data2) {
+    temp_data.push({ x: i['date'].toDate().getTime(), y: i['weight'] });
   }
-  weightData.value = interpolateData(temp_data)
-}
-const getBloodPressureData = async()=>{
-  const data1 = await getAllDocuments('pregnancy-health')
-  const data2 = await getAllDocuments('pregnancy-health-daily')
-  console.log(data1,data2)
-  let temp_data:DataPoint[] = [];
-  for(const i of data1){
-    temp_data.push({x:i['date'].toDate().getTime(),y:i['bloodPressure']})
+  chartData.value = interpolateData(temp_data);
+};
+const bloodPressureChartData = ref<DataPoint[][]>([[],[]])
+const getBloodPressureData = async () => {
+  const data1 = props.nonDialyData;
+  const data2 = props.dialyData;
+  let temp_data: DataPoint[][] = [[],[]];
+  for (const i of data1) {
+    temp_data[0].push({ x: i['date'].toDate().getTime(), y: Number(i['bloodPressure'].split('/')[0]) });
+    temp_data[1].push({ x: i['date'].toDate().getTime(), y: Number(i['bloodPressure'].split('/')[1]) });
   }
-  for(const i of data2){
-    temp_data.push({x:i['date'].toDate().getTime(),y:i['bloodPressure']})
+  for (const i of data2) {
+    temp_data[0].push({ x: i['date'].toDate().getTime(), y: Number(i['bloodPressure'].split('/')[0]) });
+    temp_data[1].push({ x: i['date'].toDate().getTime(), y: Number(i['bloodPressure'].split('/')[1]) });
   }
-  weightData.value = interpolateData(temp_data)
-}
-const getUrineProteinData = async()=>{
-  const data2 = await getAllDocuments('pregnancy-health-daily')
-  let temp_data:DataPoint[] = [];
-  for(const i of data2){
-    temp_data.push({x:i['date'].toDate().getTime(),y:i['urineProtein']?i['urineProtein']:0})
-  }
-  urineProteinData.value = interpolateData(temp_data)
-}
-const getUrineSugarData = async()=>{
-  const data2 = await getAllDocuments('pregnancy-health-daily')
-  let temp_data:DataPoint[] = [];
-  for(const i of data2){
-    temp_data.push({x:i['date'].toDate().getTime(),y:i['urineSugar']?i['urineSugar']:0})
-  }
-urineSugarData.value = interpolateData(temp_data)
-}
-// 计算属性来动态获取数据
-onMounted(()=>{
-  getBloodPressureData();
-  getUrineSugarData();
-  getUrineProteinData()
-  getWeightData();
-})
-const chartData = computed(() => {
-  switch (props.chartSelect) {
-    case 'bloodPressure':
-      return bloodPressureData.value
-    case 'urineSugar':
-      return urineSugarData.value
-    case 'urineProtein':
-      return urineProteinData.value
-    case 'weight':
-    default:
-      return weightData.value
-  }
+  
+  bloodPressureChartData.value[0] = interpolateData(temp_data[0]);
+  bloodPressureChartData.value[1] = interpolateData(temp_data[1]);
 
+};
+const getUrineProteinData = async () => {
+  const data2 = props.nonDialyData;
+  let temp_data: DataPoint[] = [];
+  for (const i of data2) {
+    temp_data.push({
+      x: i['date'].toDate().getTime(),
+      y: i['urineProtein'] ? i['urineProtein'] : 0
+    });
+  }
+  chartData.value = interpolateData(temp_data);
+};
+const getUrineSugarData = async () => {
+  const data2 = props.nonDialyData;
+  let temp_data: DataPoint[] = [];
+  for (const i of data2) {
+    temp_data.push({ x: i['date'].toDate().getTime(), y: i['urineSugar'] ? i['urineSugar'] : 0 });
+  }
+  chartData.value = interpolateData(temp_data);
+};
+onMounted(() => {
+  getUrineSugarData();
+  getUrineProteinData();
+  getWeightData();
 });
+watch(
+  () => props.chartSelect,
+  () => {
+    switch (props.chartSelect) {
+      case 'bloodPressure':
+        getBloodPressureData();
+        break;
+      case 'urineSugar':
+        getUrineSugarData();
+        break;
+      case 'urineProtein':
+        getUrineProteinData();
+        break;
+      case 'weight':
+      default:
+        getWeightData();
+    }
+
+  }
+);
 const intervalNum = computed(() => {
-  console.log(chartData)
+  console.log(chartData);
   const totalDays =
-    (chartData.value[chartData.value.length - 1]?.x - chartData.value[0]?.x) / (24 * 60 * 60 * 1000);
+    (chartData.value[chartData.value.length - 1]?.x - chartData.value[0]?.x) /
+    (24 * 60 * 60 * 1000);
   return totalDays / 7 - 1;
 });
 // 计算属性来定义 series
-const series = computed(() => [
-  {
-    name: 'XYZ MOTORS',
-    data: chartData.value // 使用计算属性的值
+const series = computed(() => {
+  if (props.chartSelect == 'bloodPressure') {
+    return [
+      {
+        name: '收縮壓',
+        data: bloodPressureChartData.value[0]
+      },
+      {
+        name: '舒張壓',
+        data: bloodPressureChartData.value[1]
+      }
+    ];
   }
-]);
+  return [{
+    name: props.chartSelect,
+    data: chartData.value // 使用计算属性的值
+  }];
+});
 
 // 定义图表选项
 const chartOptions = computed(() => {
-  return {
+  const config =ref ({
     chart: {
       height: 350,
       type: 'line',
@@ -166,6 +172,7 @@ const chartOptions = computed(() => {
         enabled: false
       }
     },
+    colors: ['#71C5D5'],
     dataLabels: {
       enabled: false
     },
@@ -173,14 +180,14 @@ const chartOptions = computed(() => {
       curve: 'straight' // 使用平滑曲线
     },
     title: {
-      text: 'Stock Price Movement',
+      text: '統計圖表',
       align: 'left'
     },
     grid: {
       borderColor: '#e0e0e0', // 网格线颜色
       strokeDashArray: 7, // 网格线样式
       column: {
-        colors: ['#121212', 'transparent'],
+        colors: ['#E3E7E9', 'transparent'],
         opacity: 0.5
       },
       xaxis: {
@@ -208,7 +215,7 @@ const chartOptions = computed(() => {
       type: 'category',
       labels: {
         formatter: function (val: string, timestamp: number) {
-          const firstDataX = chartData.value[0].x; // 第一条数据的 x 值
+          const firstDataX = chartData.value[0]?.x; // 第一条数据的 x 值
           const currentDataX = new Date(val).getTime(); // 当前 x 值
           /* console.log("val",new Date(val)) */
           // console.log("timestamp",new Date(timestamp))
@@ -219,7 +226,6 @@ const chartOptions = computed(() => {
       tickAmount: intervalNum.value
     },
     tooltip: {
-      shared: false,
       x: {
         formatter: function (val: number) {
           const date = new Date(val);
@@ -232,12 +238,18 @@ const chartOptions = computed(() => {
         }
       }
     }
-  };
+  })
+  if(props.chartSelect == 'bloodPressure'){
+    config.value.colors = ['#71C5D5','#468D9B']
+  }else{
+    config.value.colors = ['#71C5D5']
+  }
+  return config.value;
 });
 </script>
 
 <template>
   <div id="chart" class="m-4 mt-2" style="min-height: auto">
-    <ApexChart type="line" height="150" :options="chartOptions" :series="series"></ApexChart>
+    <ApexChart type="line" height="350" :options="chartOptions" :series="series"></ApexChart>
   </div>
 </template>

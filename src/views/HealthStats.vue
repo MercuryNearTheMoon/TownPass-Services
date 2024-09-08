@@ -1,7 +1,11 @@
 <template>
-  <main>
+  <BaseLoader v-if="!hasDone" />
+  <main v-else>
+    
     <div class="py-4 bg-primary-50 min-h-screen flex flex-col">
+
       <div class="bg-white rounded-xl shadow-lg mx-4 ">
+        
         <div class="flex items-center justify-end px-4 pt-2 m-0">
           <span class="flex w-3 h-3 bg-primary-400 rounded-full"></span>
           <div class="w-24 mb-0">
@@ -9,15 +13,49 @@
           </div>
         </div>
         <div class="h-auto">
-          <LineChart :chartSelect="selected_field"></LineChart>
+          <LineChart v-if="hasDone" v-model:non-dialy-data="nonDailyData" v-model:dialy-data="dailyData" :chartSelect="selected_field"></LineChart>
         </div>
       </div>
 
       <div class="font-bold px-4 mt-6">歷史資料</div>
 
       <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 p-4">
-        <!-- 放入歷史資料內容 -->
-        whatever
+        <div class="p-4">
+          <div class="text-lg font-bold mb-4">日常</div>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div v-for="i in dailyData" class="bg-white rounded-lg shadow-md p-4 my-2 flex justify-begin items-center gap-4">
+                <!-- 日期和體重部分 -->
+                <div class="col-span-2 px-5 pr-10 ">
+                  <div class="text-sm font-semibold text-gray-700">{{ `${i.date.toDate().getFullYear()}/${i.date.toDate().getMonth() + 1}/${i.date.toDate().getDate()}` }}</div>
+                  <div class="text-sm font-medium text-gray-600">{{ i.weight }} 公斤</div>
+                </div>
+                <!-- 週數和血壓部分 -->
+                <div class="col-span-2 px-5">
+                  <div class="text-sm font-semibold text-gray-700">第{{ dailyData[dailyData.length-1].week + Math.floor(Math.abs((i.date.toDate().getTime() - dailyData[dailyData.length-1].date.toDate().getTime()) / (7 * 24 * 60 * 60 * 1000))) }}週</div>
+                  <div class="text-sm font-medium text-gray-600">{{ i.bloodPressure }} mmHg</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-lg font-bold mb-4">產檢</div>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div v-for="i in nonDailyData" class="bg-white rounded-lg shadow-md p-4 my-2 flex justify-begin items-center">
+                <!-- 日期和體重部分 -->
+                <div class="col-span-2 px-5">
+                  <div class="text-sm font-medium text-gray-700">{{ `${i.date.toDate().getFullYear()}/${i.date.toDate().getMonth() + 1}/${i.date.toDate().getDate()}` }}</div>
+                  <div class="text-sm font-medium text-gray-600">{{ i.weight }} 公斤</div>
+                </div>
+                <!-- 週數和血壓部分 -->
+                <div class="col-span-2 px-5">
+                  <div class="text-sm font-medium text-gray-700">第{{ dailyData[dailyData.length-1].week + Math.floor(Math.abs((i.date.toDate().getTime() - dailyData[dailyData.length-1].date.toDate().getTime()) / (7 * 24 * 60 * 60 * 1000)))-2 }}週</div>
+                  <div class="text-sm font-medium text-gray-600">{{ i.bloodPressure }} mmHg</div>
+                </div>
+                <div class="col-span-2 px-3">
+                  <div class="text-sm font-medium text-gray-600">尿糖  ：{{ i.urineSugar }} mmHg</div>
+                  <div class="text-sm font-medium text-gray-600">尿蛋白：{{ i.urineProtein }} mmHg</div>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
 
       <RouterLink to="/pregnancy-form">
@@ -38,17 +76,15 @@ import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useConnectionMessage } from '@/composables/useConnectionMessage';
 import { useHandleConnectionData } from '@/composables/useHandleConnectionData';
-import ServiceTabsView from '@/components/organisms/ServiceTabsView.vue';
-import BaseInput from '@/components/atoms/BaseInput.vue';
-import ServiceStep from '@/components/molecules/ServiceStep.vue';
 import serviceListJson from '../../public/mock/service_list.json';
 import caseProgressJson from '../../public/mock/case_progress.json';
-import BaseButton from '@/components/atoms/BaseButton.vue';
 import type { User } from '@/stores/user';
-import DailyForm from '@/components/organisms/DailyForm.vue';
 import BaseSelect from '@/components/atoms/BaseSelect.vue';
 import LineChart from '@/components/charts/LineChart.vue';
-
+import { getAllDocuments }  from '@/api/pregnancy'
+import { onBeforeMount ,onMounted} from 'vue';
+import type{HealthRecord} from '@/api/pregnancy'
+import BaseLoader  from '@/components/atoms/BaseLoader.vue';
 const store = useFormStore();
 
 store.reset();
@@ -111,15 +147,15 @@ const flatServiceList = computed(() =>
 
 const expandList = ref<string[]>([]);
 const expandListSet = computed(() => new Set(expandList.value.map((name) => name)));
-
-const onExpandClick = (name: string) => {
-  if (expandListSet.value.has(name)) {
-    const index = expandList.value.findIndex((el) => el === name);
-    expandList.value.splice(index, 1);
-  } else {
-    expandList.value.push(name);
-  }
-};
+const hasDone = ref<Boolean>(false)
+const dailyData = ref<HealthRecord[]>([])
+const nonDailyData = ref<HealthRecord[]>([])
+  onMounted(async()=>{
+  dailyData.value = await getAllDocuments('pregnancy-health')
+  nonDailyData.value = await getAllDocuments('pregnancy-health-daily')
+  console.log(dailyData.value)
+  hasDone.value = true
+})
 
 const searchResult = ref<
   {

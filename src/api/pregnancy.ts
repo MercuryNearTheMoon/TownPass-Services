@@ -24,7 +24,7 @@ export interface HealthRecord {
   date: Timestamp;
   week: number;
   weight: number;
-  bloodPressure: number;
+  bloodPressure: string;
   urineSugar?: number;
   urineProtein?: number;
 }
@@ -34,7 +34,7 @@ export async function insertDailyDocument(
   date: Date,
   week: number,
   weight: number,
-  bloodPressure: number,
+  bloodPressure: string,
   urineSugar: number,
   urineProtein: number
 ): Promise<string> {
@@ -62,7 +62,7 @@ export async function insertDocument(
   date: Date,
   week: number,
   weight: number,
-  bloodPressure: number
+  bloodPressure: string
 ): Promise<string> {
   try {
     // Add a new document with the data
