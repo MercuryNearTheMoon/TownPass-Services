@@ -54,7 +54,7 @@
                 <span class="news-from">{{ data.from }}</span>
                 <span class="news-data">{{ data.date }}</span>
               </p>
-              <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
+              <p class="news-content-container">{{ data.title }}</p>
             </div>
           </div>
         </BaseCard>
