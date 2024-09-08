@@ -2,12 +2,13 @@
   <v-app>
     <main>
       <!-- <MilestoneComponent /> -->
-      <div class="py-4 bg-primary-50 min-h-screen">
+      <div class="py-4 bg-primary-50 min-h-screen mb-0">
         <div class="w-full bg-white">
           <img
             src="/images/image.png"
             alt="Description of Image"
-            class="w-full h-40 object-cover"
+            class="w-full"
+            style="height: 180px"
           />
         </div>
         <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
@@ -53,7 +54,7 @@
                 <span class="news-from">{{ data.from }}</span>
                 <span class="news-data">{{ data.date }}</span>
               </p>
-              <p class="news-content-container">{{ data.title }} {{ data.content }}</p>
+              <p class="news-content-container">{{ data.title }}</p>
             </div>
           </div>
         </BaseCard>
@@ -66,7 +67,7 @@
           <v-card-title class="news-title">{{ selectedNews?.title }}</v-card-title>
           <v-card-text>
             <div class="news-content">{{ selectedNews?.content }}</div>
-            <div class="news-url text-primary-500">{{ selectedNews?.url }}</div>
+            <a :href="selectedNews.url" class="news-url text-primary-500">{{ selectedNews?.url }}</a>
             <div class="news-date text-grey-400">{{ selectedNews?.date }}</div>
           </v-card-text>
         </v-card>
@@ -273,15 +274,26 @@ html {
   color: rgb(146, 146, 146);
   margin-bottom: 5px;
 }
-
 .news-content-container {
   overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
   max-height: 20px;
   font-weight: bold;
+  position: relative;
 }
+
+.news-content-container::after {
+  content: '';
+  width: 80px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.864), rgba(255, 255, 255, 0.196));
+  pointer-events: none;
+}
+
 
 .news-from {
   color: #212121 !important;

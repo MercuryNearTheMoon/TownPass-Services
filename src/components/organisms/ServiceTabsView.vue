@@ -25,7 +25,7 @@ const activeTab = defineModel({ default: 0 });
     <div
       v-for="(item, index) in props.tabList"
       :key="item.id"
-      class="tab-view h-full"
+      class="tab-view h-full mb-0"
       :style="{ transform: `translate(calc(-100%*${activeTab}))` }"
     >
       <slot :name="`tab${index}`"> tab {{ item.title }} </slot>

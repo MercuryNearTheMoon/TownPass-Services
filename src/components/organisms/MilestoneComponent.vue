@@ -70,7 +70,7 @@ onMounted(async () => {
   align-items: center;
   background-color: #edf8fa;
   width: 100%;
-  padding: 32px 0px;
+  padding: 0px;
 }
 .step {
   display: flex;

@@ -28,6 +28,7 @@
     </BaseCard>
     <div class="flex gap-3 mx-4 my-8">
       <BaseButton class="flex-grow" outline @click="submitForm">取消</BaseButton>
+      
       <BaseButton
         class="flex-grow"
         @click="
@@ -40,7 +41,9 @@
           )
         "
       >
+      <RouterLink to="/health-stats">
         儲存
+    </RouterLink>
       </BaseButton>
     </div>
   </div>

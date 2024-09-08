@@ -5,11 +5,12 @@ import SpotDetail from '@/components/organisms/SpotDetailView.vue';
 import MessageModal from '@/components/molecules/MessageModal.vue';
 import { useGoogleMapsStore } from '@/stores/googleMaps';
 import axios from 'axios';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { MarkerClusterer, SuperClusterAlgorithm } from '@googlemaps/markerclusterer';
 import greenDotIconUrl from '/public/images/map/youbike/mappin-green.svg';
 import defaultFocusIconUrl from '/public/images/map/icon_mappin-garbagetruck-green-pressed.svg';
 import { mappingFormatter, getNestedValue } from '@/utils/spot-formatter';
+import { RouterLink } from 'vue-router';
 
 export interface Spot {
   id: string;
@@ -86,6 +87,12 @@ let isShowGeoError = ref(false);
 
 onMounted(() => {
   initMap(currentLocation.value.lat, currentLocation.value.lng);
+
+  fetch('/mock/geocoded_addresses.json')
+    .then((resp) => resp.json())
+    .then((data) => {
+      geo_enc.value = data;
+    });
 });
 
 const handleExpandChange = (newValue: boolean) => {
@@ -135,9 +142,7 @@ const setMapHeight = () => {
 const initMap = (lat: number, lng: number) => {
   googleMapsStore.loader.load().then(async () => {
     // TODO
-
     // const { Map } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
-
     // map = new Map(document.getElementById('map') as HTMLElement, {
     //   // 設定地圖的中心點經緯度位置
     //   center: { lat, lng },
@@ -156,7 +161,6 @@ const initMap = (lat: number, lng: number) => {
     //   // 替換成您的 MAP ID
     //   mapId: ''
     // });
-
     // // init marker
     // marker = new google.maps.Marker({
     //   position: {
@@ -174,20 +178,16 @@ const initMap = (lat: number, lng: number) => {
     //     strokeWeight: 2
     //   }
     // });
-
     // get current location
     // getPositionClick();
-
     // 在地圖的dragend事件上使用該函數
     // map.addListener('dragend', function () {
     //   updateMarkers();
     // });
-
     // // // 在地圖的zoom_changed事件上使用該函數
     // map.addListener('zoom_changed', function () {
     //   updateMarkers();
     // });
-
     // isMapReady.value = true;
     // setMapHeight();
     // window.addEventListener('resize', setMapHeight);
@@ -253,10 +253,8 @@ const updateMarkers = async () => {
   //   clearMarkers();
   //   return;
   // }
-
   // const bounds = map.getBounds();
   // if (!bounds) return;
-
   // filteredSpotList.value = searchSpotList.value
   //   .map((spot) => ({
   //     ...spot,
@@ -274,52 +272,41 @@ const updateMarkers = async () => {
   //       ).toFixed(1)
   //     )
   //   }));
-
   // console.log('filteredSpotList:', filteredSpotList.value);
-
   // // Clear existing markers
   // clearMarkers();
-
   // let currentFocusedMarker: any = null;
-
   // filteredSpotList.value.forEach((spot) => {
   //   const greenDotIcon = {
   //     url: greenDotIconUrl, // 預設綠色小圓點圖標的路徑
   //     scaledSize: new google.maps.Size(20, 20), // 設置圖標的大小
   //     anchor: new google.maps.Point(10, 20) // 設置圖標的錨點，使其中心對齊底部
   //   };
-
   //   const marker = new google.maps.Marker({
   //     position: { lat: Number(spot.lat), lng: Number(spot.lng) },
   //     map,
   //     icon: greenDotIcon
   //   });
-
   //   marker.addListener('click', () => {
   //     if (currentFocusedMarker && currentFocusedMarker !== marker) {
   //       // 恢復之前聚焦的標記為預設圖標
   //       currentFocusedMarker.setIcon(greenDotIcon);
   //       selectedSpot.value = null;
   //     }
-
   //     const focusedIcon = {
   //       url: defaultFocusIconUrl, // 點擊後聚焦圖標的路徑
   //       scaledSize: new google.maps.Size(48, 69), // 設置圖標的大小
   //       anchor: new google.maps.Point(24, 69) // 設置圖標的錨點，使其中心對齊底部
   //     };
-
   //     // 設置當前標記為聚焦圖標
   //     marker.setIcon(focusedIcon);
   //     currentFocusedMarker = marker;
-
   //     // 獲取所選擇的 spot 的所有屬性
   //     selectedSpot.value = spot;
   //     console.log('Selected spot:', selectedSpot);
   //   });
-
   //   markers.push(marker);
   // });
-
   // // Add a marker clusterer to manage the markers.
   // markerCluster = new MarkerClusterer({
   //   markers,
@@ -341,7 +328,6 @@ const updateMarkers = async () => {
   //         <circle fill="#fff" cx="120" cy="120" r="70" />
   //         <text x="50%" y="50%" style="fill:#2eb6c7" text-anchor="middle" font-size="50" dominant-baseline="middle" font-family="roboto,arial,sans-serif">${count}</text>
   //         </svg>`);
-
   //       // create marker using svg icon
   //       return new google.maps.Marker({
   //         position,
@@ -368,14 +354,58 @@ const clearMarkers = () => {
 
 // Watch for changes in searchSpotList
 watch(searchSpotList, updateMarkers);
+
+const geo_enc = ref([]);
+const nearby_hospital = computed(() => {
+  console.log(geo_enc.value);
+  const cur_coord = currentLocation.value;
+  const coords = geo_enc.value.sort((a, b) => {
+    let distA = haversineDistance(a, cur_coord);
+    let distB = haversineDistance(b, cur_coord);
+    return distA - distB;
+  });
+  return coords.slice(0, 3);
+});
+
+function haversineDistance(coords1, coords2) {
+  function toRad(x) {
+    return (x * Math.PI) / 180;
+  }
+
+  var R = 6371; // Earth's radius in kilometers
+  var dLat = toRad(coords2.lat - coords1.lat);
+  var dLon = toRad(coords2.lng - coords1.lng);
+
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(coords1.lat)) *
+      Math.cos(toRad(coords2.lat)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var distance = R * c;
+
+  return distance;
+}
 </script>
 
 <template>
-  <div class="pb-8 h-screen">
-    <div v-if="isShowGeoError">
+  <div class="py-4 bg-primary-50 min-h-screen">
+    <!-- <div v-if="isShowGeoError">
       no gps
     </div>
-    {{ currentLocation }}
+    {{ currentLocation }} -->
+    <div class="font-bold px-4 mt-4 mb-0 text-xl">周遭醫療</div>
+    <div class="px-4 mb-0 text-gray-400">使用GPS自動帶入鄰近的三個醫療院所</div>
+    <div v-for="hospital in nearby_hospital" class="bg-white rounded-xl shadow-lg mx-4 mt-4 p-4">
+      <a :href="`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hospital.name + ' ' + hospital.addr)}`">
+        <div class="flex justify-start items-center">
+          <img src="/images/primary_icon_others.svg" alt="Icon 1" class="w-10 h-10" />
+          <p class="text-lg font-bold">{{ hospital.name }}</p>
+        </div>
+        <p class="ml-4">{{ hospital.addr }}</p>
+      </a>
+    </div>
   </div>
 
   <!-- geo modal -->
