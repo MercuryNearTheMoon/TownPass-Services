@@ -67,7 +67,7 @@
           <v-card-title class="news-title">{{ selectedNews?.title }}</v-card-title>
           <v-card-text>
             <div class="news-content">{{ selectedNews?.content }}</div>
-            <div class="news-url text-primary-500">{{ selectedNews?.url }}</div>
+            <a :href="selectedNews.url" class="news-url text-primary-500">{{ selectedNews?.url }}</a>
             <div class="news-date text-grey-400">{{ selectedNews?.date }}</div>
           </v-card-text>
         </v-card>
