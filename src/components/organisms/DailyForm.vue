@@ -20,7 +20,7 @@
           <BaseInput
             v-model="item.data"
             :required="item.required"
-            :placeholder="item.data !== '' ? item.data : 'Input Text'"
+            :placeholder="item.placeholder !== '' ? item.placeholder : 'Input Text'"
             v-else
           />
         </div>
@@ -85,22 +85,26 @@ const store = reactive({
   form: {
     date: {
       label: '日期',
+      placeholder:'',
       data: `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`,
       required: true
     },
     week: {
       label: '週次',
       data: '',
+      placeholder:'',
       required: true,
       disabled: false
     },
     weight: {
       label: '體重',
       data: '',
+      placeholder:'',
       required: true
     },
     blood: {
       label: '血壓',
+      placeholder: '收縮壓/舒張壓',
       data: '',
       required: true
     }
