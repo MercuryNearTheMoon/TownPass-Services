@@ -7,7 +7,8 @@
           <img
             src="/images/image.png"
             alt="Description of Image"
-            class="w-full h-40 object-cover"
+            class="w-full"
+            style="height: 180px"
           />
         </div>
         <div class="bg-white rounded-xl shadow-lg mx-4 mt-4 flex p-4">
